@@ -9,9 +9,9 @@ This project aims to build trust among farmers in artificial intelligence by dem
 - **Core Functionality**: Users will interact with a web-based interface to label images of corn as either *healthy* or *unhealthy*.  
 - **Machine Learning Integration**: The system employs *active learning*, meaning it refines its model based on user-provided labels.  
 - **File Structure**:  
-  - `CapstoneMain/` - Main project directory, where the program runs.  
-  - `Images/` - Stores all images, organized into subfolders by classification (e.g., *healthy/* and *unhealthy/*).  
-  - A *master file* must contain the paths to all images for the program to function correctly.  
+  - 
+  - 
+  - 
 
 ## Features
 
