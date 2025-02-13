@@ -8,10 +8,6 @@ This project aims to build trust among farmers in artificial intelligence by dem
 
 - **Core Functionality**: Users will interact with a web-based interface to label images of corn as either *healthy* or *unhealthy*.  
 - **Machine Learning Integration**: The system employs *active learning*, meaning it refines its model based on user-provided labels.  
-- **File Structure**:  
-  - 
-  - 
-  - 
 
 ## Features
 
