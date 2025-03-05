@@ -1,0 +1,11 @@
+<map id="app.web.renderLabel" name="app.web.renderLabel">
+<area shape="rect" id="Node000001" title=" " alt="" coords="400,56,541,82"/>
+<area shape="rect" id="Node000002" href="$namespaceapp_1_1web.html#a065a010a8b2bdb2470ae352460f55743" title=" " alt="" coords="155,5,352,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,55,311,34,312,29,398,49"/>
+<area shape="rect" id="Node000003" href="$namespaceapp_1_1web.html#a00442c77e8a9a268a49a037e286419c0" title=" " alt="" coords="5,56,107,82"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="384,72,107,72,107,66,384,66"/>
+<area shape="rect" id="Node000004" href="$namespaceapp_1_1web.html#a483ef36ab5abd8c66ac57c7feeeefe28" title=" " alt="" coords="185,107,322,132"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="398,88,312,109,311,103,397,83"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="186,38,108,58,107,53,185,33"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="185,105,107,84,108,79,186,100"/>
+</map>
