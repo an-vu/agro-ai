@@ -16,6 +16,8 @@ import os
 import numpy as np
 import boto3
 from io import StringIO
+from app.JackPreprocess import process
+import matplotlib.pyplot as plt
 
 bootstrap = Bootstrap(app)
 
@@ -38,6 +40,9 @@ def getData():
     data.columns = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
 
     data_mod = data.astype({'8': 'int32','9': 'int32','10': 'int32','12': 'int32','14': 'int32'})
+
+    process.display(data)
+
     return data_mod.iloc[:, :-1]
 
 def createMLModel(data):
