@@ -1,8 +1,30 @@
-# Ag-AI
-Capstone Project
+# Agro-AI
 
-The goal of this project is to build trust in farmers on the idea of artificial intelligence. We plan to do this by allowing the user to interact with an active learning system, providing information to a machine learning algorithm and seeing how their input changes the accuracy of the algorithm.
+## CSCI 4970 Capstone Project
 
-The CapstoneMain is used to run this project. Images folder is used to hold all images. Images must be separated by classification by adding a folder that holds all images of the classification. There must be a path to each file in master to run this program.
+This project aims to build trust among farmers in artificial intelligence by demonstrating an interactive learning system. Users will provide input to a machine learning algorithm and observe how their feedback impacts its accuracy.
 
-The user will interact with a web-based user interface, where they’ll be asked to label pictures of corn as either healthy or unhealthy. 
+## Project Overview
+
+- **Core Functionality**: Users will interact with a web-based interface to label images of corn as either *healthy* or *unhealthy*.  
+- **Machine Learning Integration**: The system employs *active learning*, meaning it refines its model based on user-provided labels.  
+
+## Features
+
+- **Backend**: Flask (Python)  
+- **Frontend**: HTML5, JavaScript (Fetch API)  
+
+## Technologies Used
+
+- Flask (for the backend server)  
+- JavaScript Fetch API (for client-server communication)  
+- HTML5/CSS (for UI)  
+- Machine Learning (for classification)  
+
+## Getting Started
+
+Clone this repository:
+
+```sh
+git clone https://github.com/alan-r03/agro-ai.git
+```
