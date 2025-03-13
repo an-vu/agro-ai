@@ -1,10 +1,12 @@
 # 2025
 
+---
+
 ## March 12 Changelog
 
 ### `app/` Updates
 - Added `archive/` folder to store unused codes.
-- Moved `ImagePreprocessing.py` inside `archive/`
+- Moved `ImagePreprocessing.py` inside `archive/`.
 
 ---
 
