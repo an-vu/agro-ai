@@ -6,25 +6,32 @@ from PIL import Image
 from io import BytesIO
 import random
 
+# Variables for image color modes (used in .convert() in convertToBitmap())
+grayscale = "L"
+rgb = "RGB"
+hsv = "HSV" #Hue, Saturation, Value
+
+#S3 Base URL
+baseURL = "https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/"
+
 class process:
 
-    def convert_to_bitmap(image_path):
+    def convertToBitmap(image_path):
         img = img.resize((64, 64))
-        img = Image.open(image_path).convert("RGB")
+        img = Image.open(image_path).convert(rgb)
 
         return np.array(img, dtype=np.uint8)
     
-    def preprocess_images(imgArr):
+    def preprocessImages(imgArr):
         imgArr = imgArr.astype('float32') / 255
         #imgArr = np.expand_dims(imgArr, axis=-1)
         #imgArr = np.pad(imgArr, ((0, 0), (2, 2), (2, 2), (0, 0)), 'constant')
         return imgArr
     
-    def preprocess(data):
-        selected_images = random.sample(data.index.tolist(), 64)
-
-        s3_base_url = "https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/"
-        s3_urls = [s3_base_url + img for img in selected_images]
+    def getURL(imgDict):
+        selectedImages = random.sample(list(imgDict.keys()), 64)
+        URLs = [baseURL + img for img in selectedImages]
+        return URLs
 
         # fig, axes = plt.subplots(1, len(s3_urls), figsize=(15, 5))
 
