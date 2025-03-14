@@ -13,8 +13,6 @@ from flask_bootstrap import Bootstrap
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import numpy as np
-import boto3
-
 
 bootstrap = Bootstrap(app)
 
@@ -27,8 +25,8 @@ def getData():
     data : Pandas DataFrame
         The data that contains the features for each image.
     """
-    #s3 = boto3.client('s3')
     path = 's3://agro-ai-maize/csvOut.csv'
+    print(path)
 
     try:
         data = pd.read_csv(path, index_col = 0, header = None)
