@@ -389,14 +389,3 @@ class Active_ML_Model:
             new_blight_pic_prob = []
 
         return health_pic_user, blight_pic_user, new_health_pic, new_blight_pic, new_health_pic_prob, new_blight_pic_prob
-
-class AL_Encoder(JSONEncoder):
-    """
-    This class attempts to make the Active_ML_Model JSON serializable.
-
-    Warning
-    -------
-    Active_ML_Model is not JSON serializable and thus this class does not work.
-    """
-    def default(self, o):
-        return o.__dict__

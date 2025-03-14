@@ -3,16 +3,15 @@
 This method is responsible for the inner workings of the different web pages in this application.
 """
 from flask import Flask
-from flask import render_template, flash, redirect, url_for, session, request, jsonify
+from flask import render_template, url_for, session
 from app import app
 from app.DataPreprocessing import DataPreprocessing
-from app.ML_Class import Active_ML_Model, AL_Encoder, ML_Model
+from app.ML_Class import Active_ML_Model, ML_Model
 from app.SamplingMethods import lowestPercentage
 from app.forms import LabelForm
 from flask_bootstrap import Bootstrap
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-import os
 import numpy as np
 import boto3
 from io import StringIO

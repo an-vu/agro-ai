@@ -48,8 +48,7 @@ class DataPreprocessing:
         if pca == True:
             from sklearn.decomposition import PCA
             self.pca = PCA(n_components = components)
-
-        
+   
     def fit_transform(self, X_train):
         """
         This function fits and transforms the data.
