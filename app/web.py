@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import numpy as np
 import boto3
-from io import StringIO
+
 
 bootstrap = Bootstrap(app)
 
@@ -27,13 +27,15 @@ def getData():
     data : Pandas DataFrame
         The data that contains the features for each image.
     """
-    s3 = boto3.client('s3')
+    #s3 = boto3.client('s3')
     path = 's3://agro-ai-maize/csvOut.csv'
 
     try:
         data = pd.read_csv(path, index_col = 0, header = None)
     except FileNotFoundError:
         print('Error: ' + path + ' not found.')
+
+    #print(data)
     data.columns = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
 
     data_mod = data.astype({'8': 'int32','9': 'int32','10': 'int32','12': 'int32','14': 'int32'})
