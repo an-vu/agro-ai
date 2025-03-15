@@ -1,7 +1,6 @@
 from flask import Flask
-from app.static.config import Config
+from app.AppConfig import Config
+import routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-from app import web
