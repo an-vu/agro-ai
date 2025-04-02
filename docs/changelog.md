@@ -4,11 +4,38 @@
 
 ### Clean up `.html` files in `app/templates/`
 - `base.html`
+  - Duplicate JS/CSS links, picked one version for each (Bootstrap, Font Awesome, jQuery).
+  - Added charset.
+  - Wrapped content in <div class="container"> for consistent layout.
+  - Commented out global footer — add it back if decide to unify footers across pages.
+
 - `index.html`
+  - Removed <body> and </html>.
+  - Used {{ url_for('label') }} instead of hardcoding label.html.
+  - Cleaned up unnecessary <br><br><br><br><br><br> spacing.
+  - Wrapped the footer in a clean, centered layout.
+  - Script remains inline for now — fine since it’s short and specific.
+
 - `label.html`
+  - Removed <body> and </html>.
+  - Replaced hardcoded link with {{ url_for('index') }}.
+  - Used class="img-fluid" and max-width/max-height for responsive image.
+  - Removed unnecessary <br> tags.
+  - Cleaned script remains inline and scoped.
+
 - `intermediate.html`
+  - Removed <body>/</html>.
+  - Moved the modal outside the image loops (just once on page).
+  - Replaced hardcoded links with url_for(...).
+  - Cleaned up spacing and popover text.
+  - Combined redundant jQuery ready() calls.
+  - Footer simplified and unified with other pages.
+
 - `final.html`
+
+
 - `feedback.html`
+
 
 
 ### Add shebang to `flask_app.py`
