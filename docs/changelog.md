@@ -18,7 +18,7 @@
 
 - `label.html`
   - Removed <body> and </html>.
-  - Replaced hardcoded link with {{ url_for('index') }}.
+  - Replaced hardcoded link with {{ url_for('home') }}.
   - Used class="img-fluid" and max-width/max-height for responsive image.
   - Removed unnecessary <br> tags.
   - Cleaned script remains inline and scoped.
