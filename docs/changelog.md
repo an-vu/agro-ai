@@ -54,8 +54,10 @@
 
 - intermediate_format.css
   - move .active_button to common.css
-  
+
 - final_format.css
+  - Remove .active_button block
+  - Consolidate modal + animation styles
 
 - feedback_format.css
 
