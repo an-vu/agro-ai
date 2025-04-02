@@ -20,29 +20,84 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+/* ----- Global Card Style ----- */
+.card {
+  width: auto;
+  height: auto;
+  padding: 50px 20px 20px;
+  margin: 10px 0;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow:
+    inset 1px 1.5px 2px #fff9,
+    inset 1px -0.5px 2px #ffffff4d,
+    0 0.6px 0.6px -1.25px #0000002e,
+    0 2.28px 2.28px -2.5px #00000029,
+    0 10px 10px -3.75px #00000010;
+  backdrop-filter: blur(40px);
+  border-radius: 30px;
+  position: relative;
+  transition: background 0.4s, transform 0.4s ease, box-shadow 0.4s ease;
+}
 
-/* Shared button style */
-.active_button {
-  padding: 10px 20px;
-  font-size: 18px;
-  text-align: center;
+.card:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+
+/* ----- Global Button Styles ----- */
+.button {
+  border-radius: 50em;
+  font-size: 16px;
+  margin: 5px;
+  padding: 6px 12px;
+  text-decoration: none;
+  transition:
+    background-color 0.25s,
+    box-shadow 300ms ease-in-out,
+    color 300ms ease-in-out,
+    background 0.4s,
+    transform 0.4s ease;
   cursor: pointer;
-  outline: none;
+}
+
+.button:hover {
+  transform: scale(1.15);
+}
+
+.primary-button {
+  background-color: #e73c7e;
+  border: 0.5px solid #ff3b30;
   color: #fff;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
 }
 
-.active_button:hover {
-  background-color: #3e8e41;
+.primary-button:hover {
+  background-color: #e73c7e;
+  color: #fff;
+  box-shadow: 0 0 15px 15px #ff3b30 inset;
 }
 
-.active_button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+.secondary-button {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #ff3b30;
+  color: #ff3b30;
+}
+
+.secondary-button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 15px 15px #ff3b30 inset;
+}
+
+.tertiary-button {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 0.5px solid transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tertiary-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #fff;
+  box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.15) inset;
 }
 
 /* Shared modal styles */
