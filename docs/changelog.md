@@ -38,7 +38,10 @@
   - Refactored JS for clarity and deduplication.
 
 - `feedback.html`
-
+  - Removed repeated <body>, <html>, and modal tags.
+  - Fixed broken or missing </h6> tags.
+  - Cleaned up redundant jQuery blocks.
+  - Replaced hardcoded home redirect with url_for('index').
 
 
 ### Add shebang to `flask_app.py`
