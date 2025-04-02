@@ -32,7 +32,10 @@
   - Footer simplified and unified with other pages.
 
 - `final.html`
-
+  - Removed repeated modals (one shared modal at bottom).
+  - Closed all <h6> tags (they were broken before).
+  - Replaced hardcoded links with url_for(...).
+  - Refactored JS for clarity and deduplication.
 
 - `feedback.html`
 
