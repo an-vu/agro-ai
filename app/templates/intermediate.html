@@ -80,24 +80,5 @@
   <small>&copy; 2020 <a href="/">CornAI</a></small>
 </footer>
 
-<script>
-  $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="popover"]').popover();
 
-    var modal = document.getElementById('myModal');
-    var modalImg = document.getElementById("imgset");
-
-    document.querySelectorAll(".img-thumbnail").forEach(img => {
-      img.onclick = function () {
-        modal.style.display = "block";
-        modalImg.src = this.src;
-      };
-    });
-
-    document.querySelector(".close").onclick = function () {
-      modal.style.display = "none";
-    };
-  });
-</script>
 {% endblock %}
