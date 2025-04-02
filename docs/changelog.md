@@ -53,7 +53,8 @@
   - Move the image to /static/images/ and update the path
 
 - intermediate_format.css
-
+  - move .active_button to common.css
+  
 - final_format.css
 
 - feedback_format.css
