@@ -3,6 +3,22 @@
   --input-padding-y: 0.75rem;
 }
 
+.start {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url(https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.start-heading {
+  font-weight: 300;
+  margin-top: 25px;
+}
+
 body {
   background: linear-gradient(-45deg, #FFDC5E, #DDA3B2, #BADEFC, #43AA8B);
   background-size: 400% 400%;
