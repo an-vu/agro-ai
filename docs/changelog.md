@@ -43,8 +43,15 @@
   - Cleaned up redundant jQuery blocks.
   - Replaced hardcoded home redirect with url_for('index').
 
+### Clean up `.css` files in `app/static/`
+- index_format.css
+- label_format.css
+- intermediate_format.css
+- final_format.css
+- feedback_format.css
 
 ### Add shebang to `flask_app.py`
+### Might create `js` and `css` and `image` folders in `app/static/`
 
 ---
 
