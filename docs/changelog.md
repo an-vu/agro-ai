@@ -50,6 +50,7 @@
   - fixed background-position: cover is wrong, cover is a value for background-size, not position.
 
 - label_format.css
+  - Move the image to /static/images/ and update the path
 
 - intermediate_format.css
 
