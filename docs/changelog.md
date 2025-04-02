@@ -64,6 +64,7 @@
 ### Create `common.css`
 
 
+
 ### Add shebang to `flask_app.py`
 ### Might: 1. create `js` and `css` and `image` folders in `app/static/` 2. delete `styles` and move .css and image files into the folders just created.
 
