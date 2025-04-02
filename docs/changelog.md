@@ -1,5 +1,18 @@
 # 2025
 
+## April 2 Chanelog
+
+### Clean up `.html` files in `app/templates/`
+- `base.html`
+- `index.html`
+- `label.html`
+- `intermediate.html`
+- `final.html`
+- `feedback.html`
+
+
+
+
 ---
 
 ## March 12 Changelog
