@@ -3,15 +3,14 @@
 	--input-padding-y: 0.75rem;
 }
 
-.start,
-.image {
+.start {
 	min-height: 100vh;
 }
 
 .bg-image {
 	background-image: url(https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg);
-	background-size: auto;
-	background-position: cover;
+	background-size: cover;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 
@@ -26,6 +25,3 @@
 	padding: 0.75rem 1rem;
 	border-radius: 2rem;
 }
-
-
-

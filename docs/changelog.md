@@ -44,14 +44,21 @@
   - Replaced hardcoded home redirect with url_for('index').
 
 ### Clean up `.css` files in `app/static/`
+
 - index_format.css
+  - `.start` is used, not `.image`. Remove `.image` unless it's used somewhere else.
+  - fixed background-position: cover is wrong, cover is a value for background-size, not position.
+
 - label_format.css
+
 - intermediate_format.css
+
 - final_format.css
+
 - feedback_format.css
 
 ### Add shebang to `flask_app.py`
-### Might create `js` and `css` and `image` folders in `app/static/`
+### Might: 1. create `js` and `css` and `image` folders in `app/static/` 2. delete `styles` and move .css and image files into the folders just created.
 
 ---
 
