@@ -8,14 +8,13 @@
 }
 
 .bg-image {
-  flex: 1;
   min-width: 300px;
-  height: 100%;
-  background-image: url(https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg);
+  min-height: 400px;
+  background-image: url("https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 30px;
+  border-radius: 20px;
 }
 
 .start-heading {
@@ -60,6 +59,10 @@ body {
   gap:20px;
   width: 100%;
   flex: 1;
+}
+
+.row-container > .bg-image {
+  flex-shrink: 0;
 }
 
 .column-container {
@@ -148,6 +151,28 @@ body {
   background-color: rgba(0, 0, 0, 0.05);
   color: #fff;
   box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.15) inset;
+}
+
+/* Title and Text Styling */
+.main-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sub-title {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.card-label {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 26px;
+  color: white;
+  margin-bottom: 15px;
 }
 
 /* Shared modal styles */

@@ -3,21 +3,25 @@
 {% block content %}
 
 <div class="card">
+  <!--   
+  <label class="card-label">Agro AI</label>
+   -->
   <div class="row-container">
 
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
 
-    <div class="column-container">
-      <h2 class="brand">Agro AI</h2>
+    <div class="column-container text-left">
+      <h1 class="main-title">Agro AI</h1>
 
-      <h1 class="start-heading mt-4">AI for Agriculture</h1>
-      <h3>Help farmers learn about Machine Learning and build trust in AI</h3><br>
-      <h4>We hope to accomplish this using an interactive machine learning program. Try it below!</h4><br>
+      <p class="sub-title">
+        Built for education. Trained by you. One image at a time.
+      </p>
 
       <a href="{{ url_for('label') }}">
-        <button class="button primary-button">START</button>
+        <button class="button primary-button" style="font-size: 1.5rem;">
+          START
+        </button>
       </a>
-            
     </div>
 
   </div>
