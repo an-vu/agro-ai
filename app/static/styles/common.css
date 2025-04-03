@@ -8,14 +8,26 @@
 }
 
 .bg-image {
-  flex: 1;
   min-width: 300px;
-  height: 100%;
-  background-image: url(https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg);
+  min-height: 400px;
+  background-image: url("https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 30px;
+  border-radius: 20px;
+  box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d,
+  0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e,
+  0 2.288533303243457px 2.288533303243457px -2.5px #00000029,
+  0 10px 10px -3.75px #00000010;
+  transition: background-color 0.2s,
+  box-shadow 300ms ease-in-out,
+  color 300ms ease-in-out,
+  background 0.2s,
+  transform 0.2s ease;
+}
+
+.bg-image:hover {
+  transform: scale(1.05);
 }
 
 .start-heading {
@@ -60,6 +72,10 @@ body {
   gap:20px;
   width: 100%;
   flex: 1;
+}
+
+.row-container > .bg-image {
+  flex-shrink: 0;
 }
 
 .column-container {
@@ -148,6 +164,28 @@ body {
   background-color: rgba(0, 0, 0, 0.05);
   color: #fff;
   box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.15) inset;
+}
+
+/* Title and Text Styling */
+.main-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sub-title {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.card-label {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 26px;
+  color: white;
+  margin-bottom: 15px;
 }
 
 /* Shared modal styles */

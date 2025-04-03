@@ -1,72 +1,89 @@
 # 2025
 
-## April 2 Chanelog
+---
 
-### Clean up `.html` files in `app/templates/`
-- `base.html`
-  - Duplicate JS/CSS links, picked one version for each (Bootstrap, Font Awesome, jQuery).
-  - Added charset.
-  - Wrapped content in <div class="container"> for consistent layout.
-  - Commented out global footer — add it back if decide to unify footers across pages.
+## April 2 Changelog
 
-- `index.html`
-  - Removed <body> and </html>.
-  - Used {{ url_for('label') }} instead of hardcoding label.html.
-  - Cleaned up unnecessary <br><br><br><br><br><br> spacing.
-  - Wrapped the footer in a clean, centered layout.
-  - Script remains inline for now — fine since it’s short and specific.
+### HTML Cleanup (`app/templates/`)
 
-- `label.html`
-  - Removed <body> and </html>.
-  - Replaced hardcoded link with {{ url_for('home') }}.
-  - Used class="img-fluid" and max-width/max-height for responsive image.
-  - Removed unnecessary <br> tags.
-  - Cleaned script remains inline and scoped.
+- **`base.html`**
+  - Removed duplicate CSS/JS links (Bootstrap, Font Awesome, jQuery).
+  - Added charset meta tag.
+  - Wrapped `{% block content %}` in `<div class="container">` for layout consistency.
+  - Commented out footer block — re-enable if unifying footers later.
 
-- `intermediate.html`
-  - Removed <body>/</html>.
-  - Moved the modal outside the image loops (just once on page).
-  - Replaced hardcoded links with url_for(...).
-  - Cleaned up spacing and popover text.
-  - Combined redundant jQuery ready() calls.
-  - Footer simplified and unified with other pages.
+- **`index.html`**
+  - Removed `<body>` and `</html>` tags.
+  - Replaced hardcoded `label.html` with `{{ url_for('label') }}`.
+  - Removed excessive `<br>` tags.
+  - Improved layout using `.card`, `.column-container`, and `.row-container`.
+  - Applied new button style (`.button.primary-button`).
+  - Hero section reworded and styled for modern look.
+  - Background image issue fixed with proper `bg-image` class.
 
-- `final.html`
-  - Removed repeated modals (one shared modal at bottom).
-  - Closed all <h6> tags (they were broken before).
-  - Replaced hardcoded links with url_for(...).
-  - Refactored JS for clarity and deduplication.
+- **`label.html`**
+  - Removed `<body>` and `</html>`.
+  - Replaced hardcoded link with `{{ url_for('home') }}`.
+  - Image now uses `.img-fluid` with responsive constraints.
+  - Cleaned up spacing and `<br>` tags.
+  - Kept scoped inline script — minimal and specific.
 
-- `feedback.html`
-  - Removed repeated <body>, <html>, and modal tags.
-  - Fixed broken or missing </h6> tags.
-  - Cleaned up redundant jQuery blocks.
-  - Replaced hardcoded home redirect with url_for('index').
+- **`intermediate.html`**
+  - Removed duplicate modals inside loops — now placed once at bottom.
+  - Used `url_for(...)` instead of hardcoded links.
+  - Unified tooltip/popover logic.
+  - Cleaned layout and JS structure.
 
-### Clean up `.css` files in `app/static/`
+- **`final.html`**
+  - Reused single shared modal at bottom.
+  - Fixed all unclosed `<h6>` tags.
+  - Replaced all hardcoded links with `url_for(...)`.
+  - Refactored JS for better structure and DRY logic.
 
-- index_format.css
-  - `.start` is used, not `.image`. Remove `.image` unless it's used somewhere else.
-  - fixed background-position: cover is wrong, cover is a value for background-size, not position.
+- **`feedback.html`**
+  - Removed redundant `<body>`/`<html>` tags and modal duplication.
+  - Fixed broken closing tags.
+  - Consolidated jQuery logic.
+  - Used `url_for('home')` instead of hardcoded redirect.
 
-- label_format.css
-  - Move the image to /static/images/ and update the path
+### CSS Cleanup (`app/static/styles/`)
 
-- intermediate_format.css
-  - move .active_button to common.css
+- **Removed:** `index_format.css`, `intermediate_format.css`, `feedback_format.css`
+  - All duplicate `.active_button` styles and modals consolidated.
+  - Fixed incorrect `background-position: cover` (was invalid CSS).
 
-- final_format.css
-  - Remove .active_button block
-  - Consolidate modal + animation styles
+- **`label_format.css`**
+  - Moved `bgimageblur.jpg` to `static/images/`, updated path accordingly.
 
-- feedback_format.css
+- **`final_format.css`**
+  - Removed `.active_button` styles.
+  - Consolidated modal, zoom animation, and close button styles into shared CSS.
 
-### Create `common.css`
+- **New:** `common.css`
+  - Global button styles (`.button`, `.primary-button`, `.secondary-button`, etc.)
+  - Global modal styles
+  - Card layout (`.card`, `.row-container`, `.column-container`)
+  - Background animation and typography
+  - Title text styles (`.main-title`, `.sub-title`, `.card-label`)
 
+### JavaScript
 
+- **New:** `main.js`
+  - Moved all page-specific jQuery DOM logic into one organized file.
+  - Each view’s behavior is gated using `body.dataset.page` for scope.
+  - Reduced duplication and made logic more maintainable.
 
-### Add shebang to `flask_app.py`
-### Might: 1. create `js` and `css` and `image` folders in `app/static/` 2. delete `styles` and move .css and image files into the folders just created.
+### Other
+
+- Added shebang (`#!/usr/bin/env python3`) to `flask_app.py`
+- Moved `bgimageblur.jpg` to `app/static/images/`
+
+### What's Next
+
+- Refactor and organize remaining pages (2nd and 3rd training phases).
+- Finalize `main.js` and break into modules if needed.
+- Optimize and comment `common.css` for long-term use.
+- Decide how to handle image hover, selection, and feedback UX.
 
 ---
 
