@@ -8,10 +8,14 @@
 }
 
 .bg-image {
+  flex: 1;
+  min-width: 300px;
+  height: 100%;
   background-image: url(https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  border-radius: 30px;
 }
 
 .start-heading {
@@ -28,12 +32,42 @@ body {
   font-family: "Roboto", sans-serif;
   color: #fff;
   min-height: 100vh;
+
+  perspective: 1000px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; /* Remove default margin */
+  padding: 50px;
+  box-sizing: border-box;
+  display: flex; /* Enable flexbox layout for centering */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  font-family: sans-serif;
+  color: white;
 }
 
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row; /* Stack the cards and button vertically */
+  align-items: center; /* Center the cards and button horizontally */
+  justify-content: space-evenly;
+  gap:20px;
+  width: 100%;
+  flex: 1;
+}
+
+.column-container {
+  display: flex;
+  flex-direction: column; /* Stack the cards and button vertically */
+  align-items: center; /* Center the cards and button horizontally */
+  justify-content: center;
+  gap:20px;
 }
 
 /* ----- Global Card Style ----- */
@@ -159,4 +193,35 @@ body {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Footer Styling*/
+.footer {
+  display: none;
+  /* display: flex; */
+  background: rgba(0, 0, 0, .05);
+  color: #333;
+  padding: 10px 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  border-radius: 30px;
+  box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d,
+    0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e,
+    0 2.288533303243457px 2.288533303243457px -2.5px #00000029,
+    0 10px 10px -3.75px #00000010;
+}
+
+.button, .footer-text {
+  flex: .3;
+  text-align: center;
+}
+
+.footer-text {
+  flex-grow: 1;
+  text-align: center;
 }
