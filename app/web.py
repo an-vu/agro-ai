@@ -16,6 +16,8 @@ import os
 import numpy as np
 import boto3
 from io import StringIO
+from app.JackPreprocess import process
+import matplotlib.pyplot as plt
 
 bootstrap = Bootstrap(app)
 
@@ -33,12 +35,17 @@ def getData():
 
     try:
         data = pd.read_csv(path, index_col = 0, header = None)
+        fileLabels = data.loc[:, [data.columns[0], data.columns[-1]]]
+        imgDict = dict(zip(data.index, data.iloc[:, -1]))
+        print(f'\nIMGDICT:\n{imgDict}')
     except FileNotFoundError:
         print('Error: ' + path + ' not found.')
-    data.columns = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
 
-    data_mod = data.astype({'8': 'int32','9': 'int32','10': 'int32','12': 'int32','14': 'int32'})
-    return data_mod.iloc[:, :-1]
+    #data.columns = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']
+    #data_mod = data.astype({'8': 'int32','9': 'int32','10': 'int32','12': 'int32','14': 'int32'})
+
+    URLs = process.getURL(imgDict)
+
 
 def createMLModel(data):
     """
