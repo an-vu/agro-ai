@@ -2,6 +2,30 @@
 
 ---
 
+## April 9 Changelog
+
+- Refactor and organize remaining pages (2nd and 3rd training phases).
+- Finalize `main.js` and break into modules if needed.
+- Optimize and comment `common.css` for long-term use.
+- Decide how to handle image hover, selection, and feedback UX.
+- Fix result page
+
+### Finalized Frontend cleanup
+
+- All Javascript codes are moved to `main.js` in `/app/static/js/`
+- 
+
+### Redesign Frontend
+- Redesign whole looks.
+- Redesign index.html
+- Redesign label.html
+
+
+### What's Next
+
+
+---
+
 ## April 2 Changelog
 
 ### HTML Cleanup (`app/templates/`)
@@ -77,13 +101,6 @@
 
 - Added shebang (`#!/usr/bin/env python3`) to `flask_app.py`
 - Moved `bgimageblur.jpg` to `app/static/images/`
-
-### What's Next
-
-- Refactor and organize remaining pages (2nd and 3rd training phases).
-- Finalize `main.js` and break into modules if needed.
-- Optimize and comment `common.css` for long-term use.
-- Decide how to handle image hover, selection, and feedback UX.
 
 ---
 
