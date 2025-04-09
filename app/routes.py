@@ -4,8 +4,6 @@ This method is responsible for the inner workings of the different web pages in 
 """
 import flask
 from flask import render_template, url_for, session
-import DataPreprocessor, HeatmapGenerator, ModelCreator
-from flask_bootstrap import Bootstrap
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd, numpy as np
 import numpy as np
@@ -15,11 +13,11 @@ from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 
 
+
 from io import StringIO
 from app.JackPreprocess import process
 import matplotlib.pyplot as plt
 
-bootstrap = Bootstrap(app)
 
 class LabelForm(Form):
     choice = RadioField(u'Label', choices=[('H', u'Healthy'), ('B', u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])

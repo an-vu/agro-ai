@@ -1,4 +1,5 @@
-import numpy as np, pandas as pd, matplotlib.pyplot as plt, os, time, keras, ModelCreator
+import numpy as np, pandas as pd, matplotlib.pyplot as plt, os, time, keras
+from app import ModelCreator
 from sklearn.model_selection import train_test_split
 from PIL import Image
 
