@@ -1,0 +1,265 @@
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: 0.75rem;
+}
+
+.start {
+  min-height: 100vh;
+}
+
+.bg-image {
+  min-width: 300px;
+  min-height: 400px;
+  background-image: url("https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d,
+  0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e,
+  0 2.288533303243457px 2.288533303243457px -2.5px #00000029,
+  0 10px 10px -3.75px #00000010;
+  transition: background-color 0.2s,
+  box-shadow 300ms ease-in-out,
+  color 300ms ease-in-out,
+  background 0.2s,
+  transform 0.2s ease;
+}
+
+.bg-image:hover {
+  transform: scale(1.05);
+}
+
+.start-heading {
+  font-weight: 300;
+  margin-top: 25px;
+}
+
+body {
+  background: linear-gradient(-45deg, #FFDC5E, #DDA3B2, #BADEFC, #43AA8B);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  min-height: 100vh;
+
+  perspective: 1000px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; /* Remove default margin */
+  padding: 50px;
+  box-sizing: border-box;
+  display: flex; /* Enable flexbox layout for centering */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  font-family: sans-serif;
+  color: white;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row; /* Stack the cards and button vertically */
+  align-items: center; /* Center the cards and button horizontally */
+  justify-content: space-evenly;
+  gap:20px;
+  width: 100%;
+  flex: 1;
+}
+
+.row-container > .bg-image {
+  flex-shrink: 0;
+}
+
+.column-container {
+  display: flex;
+  flex-direction: column; /* Stack the cards and button vertically */
+  align-items: center; /* Center the cards and button horizontally */
+  justify-content: center;
+  gap:20px;
+}
+
+/* ----- Global Card Style ----- */
+.card {
+  width: auto;
+  height: auto;
+  padding: 50px 20px 20px;
+  margin: 10px 0;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow:
+    inset 1px 1.5px 2px #fff9,
+    inset 1px -0.5px 2px #ffffff4d,
+    0 0.6px 0.6px -1.25px #0000002e,
+    0 2.28px 2.28px -2.5px #00000029,
+    0 10px 10px -3.75px #00000010;
+  backdrop-filter: blur(40px);
+  border-radius: 30px;
+  position: relative;
+  transition: background 0.4s, transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+
+/* ----- Global Button Styles ----- */
+.button {
+  border-radius: 50em;
+  font-size: 16px;
+  margin: 5px;
+  padding: 6px 12px;
+  text-decoration: none;
+  transition:
+    background-color 0.25s,
+    box-shadow 300ms ease-in-out,
+    color 300ms ease-in-out,
+    background 0.4s,
+    transform 0.4s ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.15);
+}
+
+.primary-button {
+  background-color: #e73c7e;
+  border: 0.5px solid #ff3b30;
+  color: #fff;
+}
+
+.primary-button:hover {
+  background-color: #e73c7e;
+  color: #fff;
+  box-shadow: 0 0 15px 15px #ff3b30 inset;
+}
+
+.secondary-button {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #ff3b30;
+  color: #ff3b30;
+}
+
+.secondary-button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 15px 15px #ff3b30 inset;
+}
+
+.tertiary-button {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 0.5px solid transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tertiary-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #fff;
+  box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.15) inset;
+}
+
+/* Title and Text Styling */
+.main-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sub-title {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.card-label {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 26px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* Shared modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Footer Styling*/
+.footer {
+  display: none;
+  /* display: flex; */
+  background: rgba(0, 0, 0, .05);
+  color: #333;
+  padding: 10px 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  border-radius: 30px;
+  box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d,
+    0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e,
+    0 2.288533303243457px 2.288533303243457px -2.5px #00000029,
+    0 10px 10px -3.75px #00000010;
+}
+
+.button, .footer-text {
+  flex: .3;
+  text-align: center;
+}
+
+.footer-text {
+  flex-grow: 1;
+  text-align: center;
+}
