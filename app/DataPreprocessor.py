@@ -1,6 +1,7 @@
 import numpy as np, pandas as pd, matplotlib.pyplot as plt, os, time, keras, ModelCreator
 from sklearn.model_selection import train_test_split
 from PIL import Image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def getAnnotations():
     path = os.path.join(os.path.dirname(__file__), 'static', 'imgAnnotations.csv')
@@ -72,6 +73,23 @@ def preprocessData(testSize=0.2, randomSeed=int(time.time())):
     matchedImages = np.array(matchedImages)
     matchedLabels = np.array(matchedLabels)
 
-    xTrain, xTest, yTrain, yTest = train_test_split(matchedImages, matchedLabels, test_size=testSize, random_state=randomSeed)
+    xTrain, xTest, yTrain, yTest = train_test_split(
+        matchedImages, matchedLabels, test_size=testSize, random_state=randomSeed
+    )
 
-    return (xTrain, yTrain), (xTest, yTest)
+    # **Define Data Augmentation**
+    datagen = ImageDataGenerator(
+        rescale=1./255,
+        rotation_range=25,
+        zoom_range=0.2,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        brightness_range=[0.8,1.2],
+        horizontal_flip=True,
+        fill_mode='nearest'
+    )
+
+    # Create an augmented data generator
+    train_generator = datagen.flow(xTrain, yTrain, batch_size=24)
+
+    return train_generator, (xTest, yTest)

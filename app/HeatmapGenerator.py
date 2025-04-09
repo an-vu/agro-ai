@@ -31,7 +31,7 @@ def overlayHeatmap(imgPath, heatmap, alpha=0.4):
 
 if __name__ == "__main__":
     
-    (xTrain, yTrain), (xTest, yTest) = DataPreprocessor.preprocessData()
+    train_generator, (xTest, yTest) = DataPreprocessor.preprocessData()
     model = ModelCreator.createCNNModel()
     history = None
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     else:
         model.compile(loss=keras.losses.binary_crossentropy, optimizer='SGD', metrics=['accuracy'])
         model.save_weights(AppConfig.WEIGHT_PATH)
-        history = model.fit(xTrain, yTrain, batch_size=32, epochs=4, validation_data=(xTest, yTest))
+        history = model.fit(train_generator, epochs=2, validation_data=(xTest, yTest))
 
 
     imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', 'DSC00108.JPG')
