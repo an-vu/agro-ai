@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import cv2, keras, os, numpy as np, tensorflow as tf, matplotlib.pyplot as plt
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -32,25 +34,26 @@ def overlayHeatmap(imgPath, heatmap, alpha=0.4):
 
     return cv2.addWeighted(img, 1 - alpha, heatmapColor, alpha, 0)
 
-if __name__ == "__main__":
-    
+def showHeatmap():
     train_generator, (xTest, yTest) = DataPreprocessor.preprocessData()
     model = ModelCreator.createCNNModel()
-    history = None
 
-    if AppConfig.RETRAIN_MODEL == False and os.path.exists(AppConfig.WEIGHT_PATH) and os.path.isfile(AppConfig.WEIGHT_PATH):
+    if not AppConfig.RETRAIN_MODEL and os.path.exists(AppConfig.WEIGHT_PATH):
         model.load_weights(AppConfig.WEIGHT_PATH)
     else:
-        model.compile(loss=keras.losses.binary_crossentropy, optimizer='SGD', metrics=['accuracy'])
+        model.compile(loss='binary_crossentropy', optimizer='SGD', metrics=['accuracy'])
+        model.fit(train_generator, epochs=2, validation_data=(xTest, yTest))
         model.save_weights(AppConfig.WEIGHT_PATH)
-        history = model.fit(train_generator, epochs=2, validation_data=(xTest, yTest))
 
+    img_path = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', 'DSC00108.JPG')
+    img = Image.open(img_path).convert('RGB').resize((256, 256))
+    img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
 
-    imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', 'DSC00108.JPG')
-    img = Image.open(imgPath).convert('RGB').resize((256, 256))
-    imgArray = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0) 
-    heatmap = generateHeatmap(model, imgArray, "conv2d_2")
-    overlayImg = overlayHeatmap(imgPath, heatmap)
+    heatmap = generateHeatmap(model, img_array, "conv2d_2")
+    overlay_img = overlayHeatmap(img_path, heatmap)
+
+    output_filename = 'heatmap_output.png'
+    output_path = os.path.join(os.path.dirname(__file__), 'static', output_filename)
 
     plt.figure(figsize=(8, 4))
     plt.subplot(1, 2, 1)
@@ -58,7 +61,10 @@ if __name__ == "__main__":
     plt.title("Original Image")
 
     plt.subplot(1, 2, 2)
-    plt.imshow(cv2.cvtColor(overlayImg, cv2.COLOR_BGR2RGB))
+    plt.imshow(cv2.cvtColor(overlay_img, cv2.COLOR_BGR2RGB))
     plt.title("Grad-CAM Heatmap")
 
-    plt.show()
+    plt.savefig(output_path)
+    plt.close()
+
+    return output_filename

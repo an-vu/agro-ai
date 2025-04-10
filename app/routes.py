@@ -7,19 +7,14 @@ from app import app
 from wtforms.form import Form
 from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
-'''from app.helpers import (
-    initializeAL,
-    renderLabel,
-    getNextSetOfImages,
-    prepareResults
-)
-'''
+from app.HeatmapGenerator import showHeatmap
+from app.logic import initializeAL, prepareResults, renderLabel, getNextSetOfImages
+
+
 
 class LabelForm(Form):
     choice = RadioField(u'Label', choices=[('H', u'Healthy'), ('B', u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
     submit = SubmitField('Add Label')
-
-
 
 @app.route("/", methods=['GET'])
 @app.route("/index.html",methods=['GET'])
@@ -29,6 +24,11 @@ def home():
     """
     session.pop('model', None)
     return render_template('index.html')
+
+@app.route('/heatmap')
+def heatmap():
+    filename = showHeatmap()
+    return render_template('heatmap.html', heatmap_img=filename)
 
 @app.route("/label.html",methods=['GET', 'POST'])
 def label():
