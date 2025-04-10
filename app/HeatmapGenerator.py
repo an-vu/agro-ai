@@ -1,5 +1,8 @@
 import cv2, keras, os, numpy as np, tensorflow as tf, matplotlib.pyplot as plt
-import DataPreprocessor, ModelCreator, AppConfig
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from app import DataPreprocessor, ModelCreator, AppConfig
+
 from PIL import Image
 
 def generateHeatmap(model, imgArray, layerName):
