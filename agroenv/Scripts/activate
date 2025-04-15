@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\lowly\Desktop\school\Senior\S2\Capstone\AgroAI-M\agro-ai\agroenv"
+VIRTUAL_ENV="C:\Users\lowly\Desktop\school\Senior\S2\Capstone\agro-ai-1\agroenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

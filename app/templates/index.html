@@ -3,9 +3,6 @@
 {% block content %}
 
 <div class="card">
-  <!--   
-  <label class="card-label">Agro AI</label>
-   -->
   <div class="row-container">
 
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
@@ -22,10 +19,16 @@
           Start Training
         </button>
       </a>
+
+      <a href="{{ url_for('heatmap') }}">
+        <button class="button primary-button" style="font-size: 1.5rem; margin-top: 1rem;">
+          Generate Heatmap
+        </button>
+      </a>
+
     </div>
 
   </div>
 </div>
-
 
 {% endblock %}
