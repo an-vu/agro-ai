@@ -9,7 +9,7 @@ from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from app.HeatmapGenerator import showHeatmap
 from app import DataPreprocessor, ModelCreator, AppConfig
-
+import os, random
 
 class LabelForm(Form):
     choice = RadioField(u'Label', choices=[('H', u'Healthy'), ('B', u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
@@ -36,7 +36,14 @@ def label():
     """
     form = LabelForm()
 
-    return render_template('label.html', form = form)
+    image_folder = 'app/static/imgHandheld/'
+    image_files = os.listdir(image_folder)
+    image_folder = 'static/imgHandheld/'
+    selected_image = random.choice(image_files)
+    image_path = f'{image_folder}{selected_image}'
+    
+    return render_template('label.html', form=form, image_path=image_path)
+
 
 @app.route("/intermediate.html",methods=['GET'])
 def intermediate():
