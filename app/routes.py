@@ -8,8 +8,7 @@ from wtforms.form import Form
 from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from app.HeatmapGenerator import showHeatmap
-from app.logic import initializeAL, prepareResults, renderLabel, getNextSetOfImages
-
+from app import DataPreprocessor, ModelCreator, AppConfig
 
 
 class LabelForm(Form):
@@ -36,18 +35,6 @@ def label():
     Operates the label(label.html) web page.
     """
     form = LabelForm()
-    if 'model' not in session:#Start
-        return initializeAL(form, .7)
-
-    elif session['queue'] == [] and session['labels'] == []: # Need more pictures
-        return getNextSetOfImages(form, lowestPercentage)
-
-    elif form.is_submitted() and session['queue'] == []:# Finished Labeling
-        return prepareResults(form)
-
-    elif form.is_submitted() and session['queue'] != []: #Still gathering labels
-        session['labels'].append(form.choice.data)
-        return renderLabel(form)
 
     return render_template('label.html', form = form)
 

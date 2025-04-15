@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\lowly\Desktop\school\Senior\S2\Capstone\AgroAI-M\agro-ai\agroenv
+set VIRTUAL_ENV=C:\Users\lowly\Desktop\school\Senior\S2\Capstone\agro-ai-1\agroenv
 
 if not defined PROMPT set PROMPT=$P$G
 
