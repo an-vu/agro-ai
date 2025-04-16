@@ -131,4 +131,4 @@ dmypy.json
 # Untracked files
 /app/static/imgHandheld
 /app/static/imgAnnotations.csv
-/app/app_cache/
+/agroenv
