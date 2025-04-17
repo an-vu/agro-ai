@@ -1,5 +1,9 @@
 # 2025
 
+## April 17 Changelog
+- Update index.html and finalize redesign
+- Update label.html and finalize redesign
+
 ---
 
 ## April 9 Changelog
