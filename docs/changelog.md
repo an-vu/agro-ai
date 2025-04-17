@@ -3,7 +3,7 @@
 ## April 17 Changelog
 - Update index.html and finalize redesign
 - Update label.html and finalize redesign
-- Fix page reload bug when clicking add label button 
+- Fix page reload bug when clicking add label button.
 
 ---
 
