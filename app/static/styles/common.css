@@ -7,29 +7,6 @@
   min-height: 100vh;
 }
 
-.bg-image {
-  min-width: 300px;
-  min-height: 400px;
-  background-image: url("https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 20px;
-  box-shadow: inset 1px 1.5px 2px #fff9, inset 1px -0.5px 2px #ffffff4d,
-  0 0.6021873017743928px 0.6021873017743928px -1.25px #0000002e,
-  0 2.288533303243457px 2.288533303243457px -2.5px #00000029,
-  0 10px 10px -3.75px #00000010;
-  transition: background-color 0.2s,
-  box-shadow 300ms ease-in-out,
-  color 300ms ease-in-out,
-  background 0.2s,
-  transform 0.2s ease;
-}
-
-.bg-image:hover {
-  transform: scale(1.05);
-}
-
 .start-heading {
   font-weight: 300;
   margin-top: 25px;
@@ -86,46 +63,128 @@ body {
 
 /* ----- Global Card Style ----- */
 .card {
-  width: auto;
-  height: auto;
-  padding: 50px 20px 20px;
+  width: 1011px;
+  height: 638px;
   margin: 10px 0;
-  background: rgba(0, 0, 0, 0.15);
-  box-shadow:
-    inset 1px 1.5px 2px #fff9,
-    inset 1px -0.5px 2px #ffffff4d,
-    0 0.6px 0.6px -1.25px #0000002e,
-    0 2.28px 2.28px -2.5px #00000029,
-    0 10px 10px -3.75px #00000010;
-  backdrop-filter: blur(40px);
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  position: absolute;
+  overflow: hidden;
   border-radius: 30px;
-  position: relative;
-  transition: background 0.4s, transform 0.4s ease, box-shadow 0.4s ease;
+  z-index: 0;
+
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+
+  box-shadow:
+    inset 1px 1.5px 2px rgba(255, 255, 255, 0.6),
+    inset 1px -0.5px 2px rgba(255, 255, 255, 0.3),
+    0 0.6px 0.6px -1.25px rgba(0, 0, 0, 0.15),
+    0 2.28px 2.28px -2.5px rgba(0, 0, 0, 0.15),
+    0 10px 10px -3.75px rgba(0, 0, 0, 0.1);
+
+  top: 50%;
+  left: 50%;
+  transition: background 0.4s, transform 0.4s ease-in-out, box-shadow 0.4s ease, opacity 0.2s ease;
+
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 2;
+  transform-origin: center center;
 }
 
 .card:hover {
-  background: rgba(0, 0, 0, 0.05);
-  transform: scale(1.05);
+  transform: translate(-50%, -50%) scale(1.05);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.homepage-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50%; /* Explicit width so it shows properly */
+  
+  background-image: url('https://miro.medium.com/max/1400/1*LhaMBgHAh9lAOWo4KQuRPA.jpeg');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+
+  filter: blur(0.8rem);
+  opacity: 0.9;
+
+  mask-image: linear-gradient(to left, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 70%, transparent 100%);
+
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+  transition: filter 0.4s ease;
+  z-index: 0;
+}
+
+.card:hover .homepage-image {
+  filter: blur(0.15rem);
 }
 
 /* ----- Global Button Styles ----- */
+.button-containter {
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+  width: 112px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* wrapper ignores hover */
+  margin-top: 12px; /* adds space below subtitle */
+  display: flex;
+  gap: 12px; /* space between the two buttons */
+  z-index: 3;
+  position: relative;
+  font-size: 0;
+}
+
 .button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+
+  border: none;
   border-radius: 50em;
   font-size: 16px;
-  margin: 5px;
-  padding: 6px 12px;
   text-decoration: none;
+
+  background-color: transparent;
+  color: inherit;
+
+  cursor: pointer;
+  pointer-events: auto;
+
   transition:
     background-color 0.25s,
     box-shadow 300ms ease-in-out,
     color 300ms ease-in-out,
     background 0.4s,
     transform 0.4s ease;
-  cursor: pointer;
+
+  z-index: 3;
+  position: relative;
+}
+
+.button-container .button {
+  font-size: 16px; /* reset for buttons */
 }
 
 .button:hover {
-  transform: scale(1.15);
+  transform: scale(1.05);
+  box-shadow: 0 0 40px #ea284e inset;
+  background-color: #fe2c55;
 }
 
 .primary-button {
@@ -166,15 +225,18 @@ body {
 
 /* Title and Text Styling */
 .main-title {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 20px;
+  color: var(--grey-900, #171717);
+  font-size: 2.2rem;
+  margin: 0;
+  font-weight: var(--font-weight-semi-bold);
 }
 
 .sub-title {
-  font-size: 1.2em;
-  color: #555;
-  margin-bottom: 15px;
+  color: var(--grey-800, #262626);
+  font-size: 1.3rem;
+  margin-top: 4px;
+  margin-bottom: 30px;
+  font-weight: var(--font-weight-semi-bold);
 }
 
 .card-label {
@@ -184,6 +246,28 @@ body {
   font-size: 26px;
   color: white;
   margin-bottom: 15px;
+}
+
+.textbox {
+  position: absolute;
+  top: 50%;
+  left: 60px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #4a4a4a;
+  text-shadow: 
+    0.5px 0.5px 1px rgba(255, 255, 255, 0.25), 
+    -0.5px -0.5px 1px rgba(0, 0, 0, 0.1);
+
+  z-index: 3;
+  position: relative;
 }
 
 /* Shared modal styles */
