@@ -13,7 +13,7 @@
 }
 
 body {
-  background: linear-gradient(-45deg, #b9d986, #f2ec58, #dda3b2, #badefc);
+  background: linear-gradient(-45deg, #419D78, #FCE762, #FFFDED, #3083DC);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   padding: 0;
@@ -141,13 +141,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   pointer-events: none; /* wrapper ignores hover */
-  margin-top: 12px; /* adds space below subtitle */
+  margin-top: 20px; /* adds space below subtitle */
   display: flex;
-  gap: 12px; /* space between the two buttons */
+  gap: 20px; /* space between the two buttons */
   z-index: 3;
   position: relative;
   font-size: 0;
+}
+
+.button-container a {
+  display: inline-block; /* fixes weird spacing issues */
 }
 
 .button {
@@ -160,18 +165,22 @@ body {
   font-size: 16px;
   text-decoration: none;
 
-  background-color: transparent;
-  color: inherit;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1.5px solid #ff3b30;
+  color: #ff3b30;
 
   cursor: pointer;
   pointer-events: auto;
 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition:
     background-color 0.25s,
     box-shadow 300ms ease-in-out,
     color 300ms ease-in-out,
     background 0.4s,
     transform 0.4s ease;
+    opacity 0.4s ease,
+    filter 0.4s ease;
 
   z-index: 3;
   position: relative;
@@ -183,44 +192,10 @@ body {
 
 .button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 40px #ea284e inset;
+  box-shadow: 0 0 15px 15px #ff3b30 inset;
   background-color: #fe2c55;
-}
-
-.primary-button {
-  background-color: #e73c7e;
-  border: 0.5px solid #ff3b30;
   color: #fff;
-}
-
-.primary-button:hover {
-  background-color: #e73c7e;
-  color: #fff;
-  box-shadow: 0 0 15px 15px #ff3b30 inset;
-}
-
-.secondary-button {
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid #ff3b30;
-  color: #ff3b30;
-}
-
-.secondary-button:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-  color: #fff;
-  box-shadow: 0 0 15px 15px #ff3b30 inset;
-}
-
-.tertiary-button {
-  background-color: rgba(0, 0, 0, 0.05);
-  border: 0.5px solid transparent;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.tertiary-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #fff;
-  box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.15) inset;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Title and Text Styling */
