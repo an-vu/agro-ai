@@ -3,44 +3,27 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/label_format.css') }}">
 
-<div class="container">
-  <div class="row border-bottom">
-    <h1 class="font-weight-light pb-3 mb-2 mt-4">Agro AI 2025</h1>
+<div class="card label-card">
+  <a href="{{ url_for('home') }}">
+    <button class="button home-button">Home</button>
+  </a>
+
+  <label class="card-label">Agro AI 2025</label>
+
+  <div class="image-container">
+    <img src="{{ image_path }}" alt="Training Image" class="training-image">
   </div>
 
-  <div class="row">
-    <div class="col-lg-10 col-xl-9 mx-auto">
-      <div class="card flex-row my-5 shadow rounded-lg border-0">
-        <label class="card-label font-weight-light pb-3 mb-2 mt-4">Training AI</label>
-        <div class="card-img-left d-none d-md-flex rounded-lg border-0">
-          <img src="{{ image_path }}" class="img-fluid"
-            style="max-width: 500px; max-height: 400px;" alt="Training Image">
-        </div>
-        <div class="card-body">
-          <p>
-            <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" title="Useful Tips"
-              data-content="The image can be identified as &quot;healthy&quot; if it satisfies the following conditions: green, no dark spots on the leaves, and not wilted. Otherwise, it's unhealthy.<br /><br />The training labels you provide will teach AI to recognize patterns and features on its own"
-              data-html="true">
-              <span class="fas fa-bullhorn" style="font-size:24px"></span>
-            </a>
-          </p>
-
-          <p>&#10146; Use the buttons to label an image as "Healthy" or "Unhealthy".</p>
-
-          <form class="form form-horizontal" action="" method="post">
-            <p>{{ form.choice() }}</p>
-            <p>{{ form.submit() }}</p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="text-right">
-    <a href="{{ url_for('home') }}">
-      <button class="mb-2 mt-4 button primary-button">Home</button>
-    </a>
+  <div class="textbox add-label-textbox">
+    <h4 class="main-title" style="font-size: 2rem;  margin: 0;">Training AI</h4>
+    <h4 class="sub-title" style="font-size: 1.3rem; margin: 0;">Use the buttons to label an image as "Healthy" or "Unhealthy"</h4>
+    <form class="label-form" action="" method="post">
+      {{ form.choice() }}
+      {{ form.submit(class_="button primary-button") }}
+    </form>
+    <br/>
   </div>
 </div>
+
 
 {% endblock %}

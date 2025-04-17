@@ -69,6 +69,7 @@ body {
   display: flex;
   flex-direction: row;
   padding: 20px;
+  padding-top: 35px;
   position: absolute;
   overflow: hidden;
   border-radius: 30px;
@@ -94,6 +95,18 @@ body {
   opacity: 1;
   z-index: 2;
   transform-origin: center center;
+}
+
+.card.label-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
 .card:hover {
@@ -190,6 +203,23 @@ body {
   font-size: 16px; /* reset for buttons */
 }
 
+.home-button {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  z-index: 3;
+  padding: 0 16px;
+  font-size: 0.8rem;
+  line-height: 1;
+  margin: 0;
+  height: 30px;
+  max-height: 30px;
+}
+
+.home-button:hover {
+  transform: none !important;
+}
+
 .button:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px 15px #ff3b30 inset;
@@ -216,11 +246,17 @@ body {
 
 .card-label {
   position: absolute;
-  right: 15px;
-  top: 10px;
+  right: 25px;
+  top: 15px;
   font-size: 26px;
-  color: white;
-  margin-bottom: 15px;
+  color: var(--grey-500, #737373);
+  text-shadow:
+    0.5px 0.5px 1px rgba(255, 255, 255, 0.25), 
+    -0.5px -0.5px 1px rgba(0, 0, 0, 0.1);
+  
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .textbox {
@@ -243,6 +279,84 @@ body {
 
   z-index: 3;
   position: relative;
+}
+
+.add-label-textbox {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+
+  width: 100%;
+  padding: 0 50px 20px 200px;
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px; /* increase spacing between radio group and button */
+  margin-top: 14px; /* optional fine-tune */
+}
+
+/* Remove bullets + reset margins for radio group */
+.label-form ul,
+.label-form li {
+  list-style: none;
+  padding: 0;
+  margin: 0; /* fully reset spacing */
+}
+
+/* Optional: add spacing *between* radio options */
+.label-form li + li {
+  margin-top: 6px;
+}
+
+.label-form input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #444; /* dark border for visibility */
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  top: 5px; /* tweak for vertical alignment */
+  margin-right: 10px;
+}
+
+.label-form input[type="radio"]:checked {
+  background-color: #007AFF; /* black fill when selected */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* center vertically */
+  height: auto;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.training-image {
+  max-width: 100%;
+  max-height: 600px;  /* increase size */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  margin: auto;
+  box-shadow:
+    0 0.6px 0.6px -1.25px rgba(0, 0, 0, 0.15),
+    0 2.28px 2.28px -2.5px rgba(0, 0, 0, 0.15),
+    0 10px 10px -3.75px rgba(0, 0, 0, 0.1);
 }
 
 /* Shared modal styles */
