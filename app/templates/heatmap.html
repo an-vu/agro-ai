@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card">
-  <div class="column-container text-left">
-    <h1 class="main-title">Generated Grad-CAM Heatmap</h1>
-    <img src="{{ url_for('static', filename=heatmap_img) }}" alt="Heatmap Image" style="width:100%; max-width:600px;" />
+
+<div class="column-container">
+  <div class="card-container heatmap-page">
+    <div class="card label-card heatmap-card">
+      <label class="card-label">Generated Grad-CAM Heatmap</label>
+      <div class="image-container">
+        <img src="{{ url_for('static', filename=heatmap_img) }}" alt="Heatmap Image" class="heatmap-image">
+      </div>
+      <br/>
+    </div>
+  </div>
+
+  <div class="navbar-button-container">
+    <a href="{{ url_for('home') }}">
+      <button class="button nav-button">Home</button>
+    </a>
   </div>
 </div>
+
 {% endblock %}
