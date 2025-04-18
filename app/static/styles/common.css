@@ -365,7 +365,7 @@ body {
 
 .training-image {
   max-width: 100%;
-  max-height: 600px;  /* increase size */
+  max-height: 600px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -376,6 +376,11 @@ body {
     0 0.6px 0.6px -1.25px rgba(0, 0, 0, 0.15),
     0 2.28px 2.28px -2.5px rgba(0, 0, 0, 0.15),
     0 10px 10px -3.75px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.training-image:hover {
+  transform: scale(1.02);
 }
 
 /* Shared modal styles */
