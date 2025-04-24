@@ -15,6 +15,7 @@
         <h4 class="main-title" style="font-size: 2rem;  margin: 0;">Training AI</h4>
         <h4 class="sub-title" style="font-size: 1.3rem; margin: 0;">Use the buttons to label an image as "Healthy" or "Unhealthy"</h4>
         <form class="label-form" action="" method="post">
+          {{ form.hidden_tag() }}
           {{ form.choice() }}
           {{ form.submit(class_="button primary-button") }}
         </form>

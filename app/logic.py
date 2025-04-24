@@ -6,6 +6,8 @@ from flask import session, render_template, url_for
 from io import StringIO
 from app.JackPreprocess import process
 from app.ModelCreator import createMLModel
+import os
+import random
 
 # This getData function grabs the images from the S3 bucket
 def getData():
@@ -15,7 +17,6 @@ def getData():
         data = pd.read_csv(path, index_col=0, header=None)
         fileLabels = data.loc[:, [data.columns[0], data.columns[-1]]]
         imgDict = dict(zip(data.index, data.iloc[:, -1]))
-        print(f'\nIMGDICT:\n{imgDict}')
     except FileNotFoundError:
         print('Error: ' + path + ' not found.')
 
@@ -23,13 +24,17 @@ def getData():
     return imgDict, URLs
 
 
-def getNextSetOfImages():
-    data, URLs = getData()
-    ml_model = createMLModel(data)
+def fetchImg(n, seen):
+    cnt = 0
+    image_folder = 'app/static/imgHandheld/'
+    image_files = os.listdir(image_folder)
+    seenImgs = list(seen.keys())
+    image_paths = []
 
-    # This might be useful, I was thinking of doing something like this to grab the images
-    #test_set = data[data.index.isin(train_img_names) == False]
+    while len(image_paths) < n:
+        selected_image = random.choice(image_files)
+        if selected_image not in seenImgs and cnt < 40:
+            image_paths.append(f'static/imgHandheld/{selected_image}')
+        cnt += 1
 
-    #test_set = []
-    #for i in range(2):
-        #test_set.append(data)3
+    return image_paths

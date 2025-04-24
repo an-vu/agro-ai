@@ -2,16 +2,16 @@
 """@package web
 This method is responsible for the inner workings of the different web pages in this application.
 """
-from flask import render_template, url_for, session
+from flask import render_template, url_for, session, redirect, request
 from app import app
-from wtforms.form import Form
+from flask_wtf import FlaskForm
 from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from app.HeatmapGenerator import showHeatmap
-from app import DataPreprocessor, ModelCreator, AppConfig
+from app import DataPreprocessor, ModelCreator, AppConfig, logic
 import os, random
 
-class LabelForm(Form):
+class LabelForm(FlaskForm):
     choice = RadioField(u'Label', choices=[('H', u'Healthy'), ('B', u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
     submit = SubmitField('Add Label')
 
@@ -21,7 +21,8 @@ def home():
     """
     Operates the root (/) and index(index.html) web pages.
     """
-    session.pop('model', None)
+    session.pop('imgQueue', None)
+    session.pop('input', None)
     return render_template('index.html')
 
 @app.route('/heatmap')
@@ -34,15 +35,32 @@ def label():
     """
     Operates the label(label.html) web page.
     """
+
     form = LabelForm()
 
-    image_folder = 'app/static/imgHandheld/'
-    image_files = os.listdir(image_folder)
-    image_folder = 'static/imgHandheld/'
-    selected_image = random.choice(image_files)
-    image_path = f'{image_folder}{selected_image}'
-    
-    return render_template('label.html', form=form, image_path=image_path)
+    if 'input' not in session:
+        session['input'] = {}
+
+    if 'imgQueue' not in session or not session['imgQueue']:
+        if len(session['input']) >= 10:
+            return redirect(url_for('intermediate'))
+        else:
+            session['imgQueue'] = logic.fetchImg(10, session['input'])
+            session.modified = True
+
+    if form.validate_on_submit():
+        current_img = session['imgQueue'].pop(0)
+        session['input'][current_img] = form.choice.data
+        session.modified = True
+
+        if not session['imgQueue']:
+            print(session['input'])
+            return redirect(url_for('intermediate'))
+
+        return redirect(url_for('label'))
+
+    current_img = session['imgQueue'][0]
+    return render_template('label.html', form=form, image_path=current_img)
 
 
 @app.route("/intermediate.html",methods=['GET'])
@@ -50,6 +68,7 @@ def intermediate():
     """
     Operates the intermediate(intermediate.html) web page.
     """
+    session['imgQueue'] = logic.fetchImg(10, session['input'])
     return render_template('intermediate.html')
 
 @app.route("/final.html",methods=['GET'])
