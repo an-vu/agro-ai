@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from flask import session, render_template, url_for
 from io import StringIO
-from app.JackPreprocess import process
-from app.ModelCreator import createMLModel
+from app import DataPreprocessor, ModelCreator, AppConfig, JackPreprocess
 import os
 import random
 
@@ -38,3 +37,33 @@ def fetchImg(n, seen):
         cnt += 1
 
     return image_paths
+
+def initModel(): # May need to be updated later for better user interaction
+    train_generator, (xTest, yTest) = DataPreprocessor.preprocessData()
+    model = ModelCreator.createCNNModel()
+
+    if not AppConfig.RETRAIN_MODEL and os.path.exists(AppConfig.WEIGHT_PATH):
+        model.load_weights(AppConfig.WEIGHT_PATH)
+    else:
+        model.compile(loss='binary_crossentropy', optimizer='SGD', metrics=['accuracy'])
+        model.fit(train_generator, epochs=2, validation_data=(xTest, yTest))
+        model.save_weights(AppConfig.WEIGHT_PATH)
+
+    return model
+    
+def getConfidence(model, img):
+    confidence = model.predict(img)[0][0]
+
+    if confidence >= 0.5:
+        return (1, confidence)  # Predicts Class 1
+    else:
+        return (0, 1 - confidence)  # Predicts Class 0
+    
+def showModelConf(model, n):
+    images = fetchImg(10, [])
+    confidenceDict = {}
+
+    for img in images:
+        confidenceDict[img] = getConfidence(model, img)
+
+    return confidenceDict

@@ -35,6 +35,8 @@ def overlayHeatmap(imgPath, heatmap, alpha=0.4):
     return cv2.addWeighted(img, 1 - alpha, heatmapColor, alpha, 0)
 
 def showHeatmap():
+    # Code for model generation moved to logic.py. This part should be updated later
+
     train_generator, (xTest, yTest) = DataPreprocessor.preprocessData()
     model = ModelCreator.createCNNModel()
 

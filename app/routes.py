@@ -76,6 +76,16 @@ def final():
     """
     Operates the final(final.html) web page.
     """
+    healthyList = []
+    blightedList = []
+    for key in session['input']:
+        if session['input'][key] == 'H':
+            healthyList.append(key)
+        else:
+            blightedList.append(key)
+
+
+
     return render_template('final.html')
 
 @app.route("/feedback/<h_list>/<u_list>/<h_conf_list>/<u_conf_list>",methods=['GET'])
