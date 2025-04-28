@@ -18,7 +18,7 @@ body {
   animation: gradient 15s ease infinite;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  color: #fff;
+  color: #000000;
   min-height: 100vh;
   perspective: 1000px;
   width: 100vw;
@@ -30,7 +30,7 @@ body {
   justify-content: center; /* Center vertically */
   align-items: center; /* Center horizontally */
   font-family: sans-serif;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 @keyframes gradient {

@@ -82,6 +82,7 @@ def intermediate():
         blightNum_user=len(unhealthy_images),
     )
 
+'''
 @app.route("/final.html",methods=['GET'])
 def final():
     """
@@ -98,6 +99,53 @@ def final():
 
 
     return render_template('final.html')
+'''
+
+@app.route("/final.html", methods=["GET"])
+def final():
+    labeled_images = session.get('labeled_images', [])
+    labels = session.get('labels', [])
+
+    if not labeled_images or not labels:
+        return redirect(url_for('home'))
+
+    # Split healthy and unhealthy images
+    health_user = [img for img, lbl in zip(labeled_images, labels) if lbl == 'H']
+    blight_user = [img for img, lbl in zip(labeled_images, labels) if lbl == 'B']
+
+    healthNum_user = len(health_user)
+    blightNum_user = len(blight_user)
+
+    # Dummy variables for machine results (these would normally be AI outputs)
+    health_test = []
+    unhealth_test = []
+    healthyNum = 0
+    unhealthyNum = 0
+    healthyPct = "0%"
+    unhealthyPct = "0%"
+    h_prob = []
+    b_prob = []
+
+    # Dummy confidence value (adjust later)
+    confidence = 0.85
+
+    return render_template(
+        'final.html',
+        confidence=confidence,
+        health_user=health_user,
+        blight_user=blight_user,
+        healthNum_user=healthNum_user,
+        blightNum_user=blightNum_user,
+        health_test=health_test,
+        unhealth_test=unhealth_test,
+        healthyNum=healthyNum,
+        unhealthyNum=unhealthyNum,
+        healthyPct=healthyPct,
+        unhealthyPct=unhealthyPct,
+        h_prob=h_prob,
+        b_prob=b_prob
+    )
+
 
 @app.route("/feedback/<h_list>/<u_list>/<h_conf_list>/<u_conf_list>",methods=['GET'])
 def feedback(h_list,u_list,h_conf_list,u_conf_list):
