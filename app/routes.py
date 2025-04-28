@@ -68,8 +68,19 @@ def intermediate():
     """
     Operates the intermediate(intermediate.html) web page.
     """
+
     session['imgQueue'] = logic.fetchImg(10, session['input'])
-    return render_template('intermediate.html')
+
+    unhealthy_images = [img for img, label in session['input'].items() if label == 'B']
+    healthy_images = [img for img, label in session['input'].items() if label == 'H']
+
+    return render_template(
+        'intermediate.html',
+        health_user=healthy_images,
+        blight_user=unhealthy_images,
+        healthNum_user=len(healthy_images),
+        blightNum_user=len(unhealthy_images),
+    )
 
 @app.route("/final.html",methods=['GET'])
 def final():
