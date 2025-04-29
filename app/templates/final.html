@@ -46,7 +46,7 @@
     <div class="row text-center text-lg-left">
       {% for i in health_user %}
       <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="{{ url_for('static', filename='imgHandheld/' ~ i) }}" alt="{{ i }}">
+        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="{{ i }}">
       </div>
       {% endfor %}
     </div>
@@ -63,7 +63,7 @@
     <div class="row text-center text-lg-left">
       {% for i in blight_user %}
       <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="{{ url_for('static', filename='imgHandheld/' ~ i) }}" alt="{{ i }}">
+        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="{{ i }}">
       </div>
       {% endfor %}
     </div>
