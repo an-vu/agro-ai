@@ -9,13 +9,13 @@ from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from sklearn.model_selection import train_test_split
 from PIL import Image
-import os, pandas as pd, numpy as np, time, keras, tensorflow as tf
+import os, cv2, pandas as pd, numpy as np, time, keras, tensorflow as tf, matplotlib.pyplot as plt
 
 class LabelForm(FlaskForm):
     choice = RadioField(u'Label', choices=[(0, u'Healthy'), (1, u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
     submit = SubmitField('Add Label')
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'app_cache', 'model.weights.h5')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'static', 'model.weights.h5')
 tf.config.run_functions_eagerly(True)
 
 @app.route("/", methods=['GET'])
@@ -46,7 +46,7 @@ def home():
 
     session['x_train'], session['x_test'], session['y_train'], session['y_test'] = train_test_split(images, labels, test_size=0.1, random_state=int(time.time()))
 
-    # step 2 - create model, compile model, save bare model to app_cache
+    # step 2 - create model, compile model, save bare model to static
     inputLayer = keras.Input(shape=(256, 256, 3))
     x = keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')(inputLayer)
     x = keras.layers.BatchNormalization()(x)
@@ -71,8 +71,8 @@ def home():
 
 @app.route('/heatmap')
 def heatmap():
-    filename = HeatmapGenerator.showHeatmap()
-    return render_template('heatmap.html', heatmap_img=filename)
+
+    return render_template('heatmap.html', heatmap_img=os.path.join(os.path.dirname(__file__), 'static', 'heatmap_output.png'))
 
 @app.route("/label.html", methods=['GET', 'POST'])
 def label():
@@ -93,8 +93,9 @@ def label():
         session['form_labels'] = session['y_train'][-10:]
         session['x_train'] = session['x_train'][:-10]
         session['y_train'] = session['y_train'][:-10]
-        session['user_x'] = None
-        session['user_y'] = None
+        if 'user_x' not in session or 'user_y' not in session:
+            session['user_x'] = []
+            session['user_y'] = []
         session['counter'] = 0
 
     # step 3 - collect user inputs through form handling
@@ -106,8 +107,8 @@ def label():
 
         # after 10 labels, clear cookies, store inputs in user_x and user_y
         if session['counter'] >= len(session['form_images']):
-            session['user_x'] = (session.pop('form_images', None))
-            session['user_y'] = (session.pop('form_labels', None))
+            session['user_x'] += (session.pop('form_images', None))
+            session['user_y'] += (session.pop('form_labels', None))
             session.pop('counter', None)
 
             return redirect(url_for('intermediate'))
@@ -131,7 +132,7 @@ def intermediate():
     imgLabels = session['user_y']
     imgMaps = []
     
-    for imgName in session['user_x']:
+    for imgName in imgNames:
         imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
 
         # Open image, convert to RGB, resize to 256x256
@@ -143,34 +144,94 @@ def intermediate():
 
     # step 2 - load, compile, and feed model
     model = keras.models.load_model(MODEL_PATH)
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['accuracy'])
     x_user = np.array(imgMaps)
     y_user = np.array(imgLabels).astype(np.float32)
     model.fit(x_user, y_user, epochs=5, batch_size=4, verbose=2)
 
-    loss, accuracy = (f'{x:.2f}' for x in model.evaluate(x_user, y_user, verbose=2))
+    loss, accuracy = (f'{x*100:.2f}' for x in model.evaluate(x_user, y_user, verbose=2))
 
     model.save(MODEL_PATH)
 
     # step 3 - sort user inputs to display on intermediate
-    userInput = list(zip(session['user_x'], session['user_y']))
-    imgH = []
-    imgU = []
+    userInput = list(zip(session['user_x'][-10:], session['user_y'][-10:]))
+    userH, userU = [], []
 
     for img, label in userInput:
         if label in '0':
-            imgH.append(url_for('static', filename=f'imgHandheld/{img}'))
+            userH.append(url_for('static', filename=f'imgHandheld/{img}'))
         elif label in '1':
-            imgU.append(url_for('static', filename=f'imgHandheld/{img}'))
+            userU.append(url_for('static', filename=f'imgHandheld/{img}'))
 
-    return render_template('intermediate.html', accuracy=accuracy, loss=loss, userH=imgH, lenH=len(imgH), userU=imgU, lenU=len(imgU))
+    return render_template('intermediate.html', accuracy=accuracy, loss=loss, userH=userH, lenH=len(userH), userU=userU, lenU=len(userU))
 
 @app.route("/final.html", methods=["GET"])
 def final():
+    # Load model
+    model = keras.models.load_model(MODEL_PATH)
 
-    training_size = min(len(session['x_train']), 500)
+    # Load test image names and labels
+    x_test = session['x_test']
+    y_test = session['y_test']
 
+    test_imgs = []
+    for imgName in x_test:
+        imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
+        img = Image.open(imgPath).convert('RGB').resize((256, 256))
+        imgArr = np.array(img, dtype=np.float32) / 255.0
+        test_imgs.append(imgArr)
 
-    return render_template('final.html', confidence=0, health_user=0, blight_user=0, healthNum_user=0, blightNum_user=0, health_test=0, unhealth_test=0, healthyNum=0, unhealthyNum=0, healthyPct=0, unhealthyPct=0, h_prob=0, b_prob=0)
+    x_test_arr = np.array(test_imgs)
+    y_test_arr = np.array(y_test).astype(np.float32)
 
-#app.run( host='127.0.0.1', port=5000, debug='True', use_reloader = False)
+    # Predict probabilities
+    probs = model.predict(x_test_arr).flatten()
+    preds = (probs > 0.5).astype(int)
+
+    # Separate image URLs and confidence per predicted label
+    modelH, modelU = [], []
+    probArrH, probArrU = [], []
+
+    for img_name, pred, prob in zip(x_test, preds, probs):
+        print(pred, prob)
+        if pred == 0:
+            modelH.append(url_for('static', filename=f'imgHandheld/{img_name}'))
+            probArrH.append(f'{(1 - prob) * 100:.2f}%')
+        else:
+            modelU.append(url_for('static', filename=f'imgHandheld/{img_name}'))
+            probArrU.append(f'{prob * 100:.2f}%')
+
+    # Calculate percentages
+    total = len(x_test)
+    lenMH = len(modelH)
+    lenMU = len(modelU)
+    percentH = f'{(lenMH / total) * 100:.2f}%' if total else '0%'
+    percentU = f'{(lenMU / total) * 100:.2f}%' if total else '0%'
+
+    # Pull user-labeled data
+    user_data = list(zip(session['user_x'][-10:], session['user_y'][-10:]))
+    userH = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '0']
+    userU = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '1']
+    lenUH = len(userH)
+    lenUU = len(userU)
+
+    # Evaluate to get confidence/accuracy
+    _, accuracy = model.evaluate(x_test_arr, y_test_arr, verbose=0)
+    confidence = f'{accuracy * 100:.2f}%'
+
+    return render_template(
+        'final.html',
+        confidence=confidence,
+        userH=userH,
+        userU=userU,
+        lenUH=lenUH,
+        lenUU=lenUU,
+        modelH=modelH,
+        modelU=modelU,
+        lenMH=lenMH,
+        lenMU=lenMU,
+        percentH=percentH,
+        percentU=percentU,
+        probArrH=probArrH,
+        probArrU=probArrU
+    )

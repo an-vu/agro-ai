@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_session import Session
-from app.AppConfig import Config
 import redis, os
 
 app = Flask(__name__)

@@ -41,3 +41,26 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.container {
+    margin-top: 40px;
+  }
+  
+  .section-row {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    gap: 10px;
+    border-top: 1px solid #ccc;
+  }
+  .img-thumbnail {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
+  .confidence-text {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 5px;
+  }
+  

@@ -3,8 +3,7 @@ matplotlib.use('Agg')
 import cv2, keras, os, numpy as np, tensorflow as tf, matplotlib.pyplot as plt
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app import DataPreprocessor, ModelCreator, AppConfig
-
+from app import DataPreprocessor, ModelCreator
 from PIL import Image
 
 def generateHeatmap(model, imgArray, layerName):
@@ -39,13 +38,14 @@ def showHeatmap():
 
     train_generator, (xTest, yTest) = DataPreprocessor.preprocessData()
     model = ModelCreator.createCNNModel()
+    model_path = os.path.join(os.path.dirname(__file__), 'static', 'model.weights.h5')
 
-    if not AppConfig.RETRAIN_MODEL and os.path.exists(AppConfig.WEIGHT_PATH):
-        model.load_weights(AppConfig.WEIGHT_PATH)
+    if os.path.exists(model_path):
+        model.load(model_path)
     else:
         model.compile(loss='binary_crossentropy', optimizer='SGD', metrics=['accuracy'])
         model.fit(train_generator, epochs=2, validation_data=(xTest, yTest))
-        model.save_weights(AppConfig.WEIGHT_PATH)
+        model.save_weights(model_path)
 
     img_path = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', 'DSC00108.JPG')
     img = Image.open(img_path).convert('RGB').resize((256, 256))
