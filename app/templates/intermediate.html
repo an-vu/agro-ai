@@ -22,7 +22,7 @@
     </a>
     <br><br>
     <h5 class="font-weight-normal">
-      Confidence: {{ confidence }}
+      Accuracy: {{ accuracy }}%, Loss: {{ loss }}%
       <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
          data-content="The confidence value reflects how well the AI predicts based on your current labels.">
         <span class="fa fa-info-circle" style="font-size:24px"></span>
@@ -30,43 +30,43 @@
     </h5>
   </div>
 
-  <!-- Healthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Healthy (User): {{ healthNum_user }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in health_user %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-thumbnail" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="">
+<!-- Healthy User Section -->
+<div class="container">
+  <h5 class="font-weight-light mt-4 mb-0">
+    Healthy (User): {{ lenH }}
+    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
+       data-content="Click on image to view full size">
+      <span class="fa fa-search"></span>
+    </a>
+  </h5>
+  <hr class="mt-2 mb-3">
+  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
+    {% for img in userH %}
+      <div style="flex: 0 0 auto; margin-right: 10px;">
+        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
       </div>
-      {% endfor %}
-    </div>
+    {% endfor %}
   </div>
+</div>
 
-  <!-- Unhealthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Unhealthy (User): {{ blightNum_user }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in blight_user %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-thumbnail" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="">
+<!-- Unhealthy User Section -->
+<div class="container mt-5">
+  <h5 class="font-weight-light mt-4 mb-0">
+    Unhealthy (User): {{ lenU }}
+    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
+       data-content="Click on image to view full size">
+      <span class="fa fa-search"></span>
+    </a>
+  </h5>
+  <hr class="mt-2 mb-3">
+  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
+    {% for img in userU %}
+      <div style="flex: 0 0 auto; margin-right: 10px;">
+        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
       </div>
-      {% endfor %}
-    </div>
+    {% endfor %}
   </div>
+</div>
 
   <!-- Shared Modal -->
   <div id="myModal" class="modal">

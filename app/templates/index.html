@@ -3,31 +3,21 @@
 {% block content %}
 
 <div class="card">
-  <div class="row-container">
+  <div class="column-container">
+    <div class="homepage-image"></div>
 
-    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="column-container">
+      <div class="textbox">
+        <h4 class="main-title">Agro AI</h4>
 
-    <div class="column-container text-left">
-      <h1 class="main-title">Agro AI</h1>
+        <p class="sub-title">Built for education. Trained by you. One image at a time.</p>
+      </div>
 
-      <p class="sub-title">
-        Built for education. Trained by you. One image at a time.
-      </p>
-
-      <a href="{{ url_for('label') }}">
-        <button class="button primary-button" style="font-size: 1.5rem;">
-          Start Training
-        </button>
-      </a>
-
-      <a href="{{ url_for('heatmap') }}">
-        <button class="button primary-button" style="font-size: 1.5rem; margin-top: 1rem;">
-          Generate Heatmap
-        </button>
-      </a>
-
+      <div class="button-container" style="margin-top: 40px; gap: 50px; scale: 1.1;">
+        <a href="{{ url_for('label') }}"><button class="button">Start Training</button></a>
+        <a href="{{ url_for('heatmap') }}"><button class="button">Generate Heatmap</button></a>
+      </div>
     </div>
-
   </div>
 </div>
 

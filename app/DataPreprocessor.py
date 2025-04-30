@@ -1,4 +1,4 @@
-import numpy as np, pandas as pd, matplotlib.pyplot as plt, os, time, keras, random
+import numpy as np, pandas as pd, matplotlib.pyplot as plt, os, time, keras
 from app import ModelCreator
 from sklearn.model_selection import train_test_split
 from PIL import Image
@@ -29,10 +29,10 @@ def arrangeAnnotations(df):
 
     return pd.DataFrame(results, columns=['Image', 'Label'])
 
-def getImages(imgNames = None):
+def getImages():
     path = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld')
     imgMaps = []
-    imgNames = [] if imgNames == None else imgNames
+    imgNames = []
 
     for imgName in os.listdir(path):
         imgPath = os.path.join(path, imgName)
@@ -49,17 +49,11 @@ def getImages(imgNames = None):
 
     return np.array(imgMaps), imgNames  # Return all images as a NumPy array
 
-def getSingleImage(imgName = None):
-    path = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld')
-    imgName = random.choice(os.listdir(path)) if imgName == None else imgName
-    imgPath = os.path.join(path, imgName)
-    img = Image.open(imgPath).convert('RGB').resize((256, 256))
-    imgArr = [np.array(img, dtype=np.float32) / 255.0]
-
-    return np.array(imgArr), imgName
+def getSingleImage():
+    print()
 
 def preprocessData(testSize=0.2, randomSeed=int(time.time())):
-    # Returns xTrain, yTrain, xTest, yTest
+    """Returns (xTrain, yTrain), (xTest, yTest)"""
     
     df = getAnnotations()
     if df is None:
@@ -80,7 +74,9 @@ def preprocessData(testSize=0.2, randomSeed=int(time.time())):
     matchedImages = np.array(matchedImages)
     matchedLabels = np.array(matchedLabels)
 
-    xTrain, xTest, yTrain, yTest = train_test_split(matchedImages, matchedLabels, test_size=testSize, random_state=randomSeed)
+    xTrain, xTest, yTrain, yTest = train_test_split(
+        matchedImages, matchedLabels, test_size=testSize, random_state=randomSeed
+    )
 
     # **Define Data Augmentation**
     datagen = ImageDataGenerator(
