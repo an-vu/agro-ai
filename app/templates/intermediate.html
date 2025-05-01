@@ -9,7 +9,7 @@
       <label class="card-label">Intermediate Review</label>
       <div class="row-container">
         <div class="card health-card">
-          <h4 class="card-label">Healthy (User): {{ healthNum_user }}</h4>
+          <h4 class="card-label health-label">Healthy (User): {{ healthNum_user }}</h4>
           <div class="scroll-row">
             {% for i in health_user %}
               <img src="/{{ i }}" class="result-thumbnail" alt="Healthy">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="card health-card">
-          <h4 class="card-label">Unhealthy (User): {{ blightNum_user }}</h4>
+          <h4 class="card-label health-label">Unhealthy (User): {{ blightNum_user }}</h4>
           <div class="scroll-row">
             {% for i in blight_user %}
               <img src="/{{ i }}" class="result-thumbnail" alt="Unhealthy">
