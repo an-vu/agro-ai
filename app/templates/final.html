@@ -35,107 +35,92 @@
     </h5>
   </div>
 
-  <!-- User-labeled Healthy -->
+  <!-- Healthy User Section -->
   <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">Healthy (User): {{ healthNum_user }}
+    <h5 class="font-weight-light mt-4 mb-0">
+      Healthy (User): {{ lenUH }}
       <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
         <span class="fa fa-search"></span>
       </a>
     </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in health_user %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="{{ i }}">
-      </div>
+    <hr class="mt-2 mb-3">
+    <div class="section-row">
+      {% for idx in range(lenUH) %}
+        <div>
+          <img src="{{ userH[idx] }}" class="img-thumbnail" alt="">
+        </div>
       {% endfor %}
     </div>
   </div>
 
-  <!-- User-labeled Unhealthy -->
+  <!-- Unhealthy User Section -->
   <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">Unhealthy (User): {{ blightNum_user }}
+    <h5 class="font-weight-light mt-4 mb-0">
+      Unhealthy (User): {{ lenUU }}
       <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
         <span class="fa fa-search"></span>
       </a>
     </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in blight_user %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ i }}" alt="{{ i }}">
-      </div>
+    <hr class="mt-2 mb-3">
+    <div class="section-row">
+      {% for idx in range(lenUU) %}
+        <div>
+          <img src="{{ userU[idx] }}" class="img-thumbnail" alt="">
+        </div>
       {% endfor %}
     </div>
   </div>
 
-  <!-- AI Predicted Healthy -->
+  <!-- Healthy User Section -->
   <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">Healthy Test (Machine): {{ healthyNum }} ({{ healthyPct }})
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="AI-labeled healthy percentage.">
-        <span class="fa fa-info-circle"></span>
-      </a>
+    <h5 class="font-weight-light mt-4 mb-0">
+      Healthy (Model): {{ lenMH }} {{ percentH }}
       <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
         <span class="fa fa-search"></span>
       </a>
     </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in range(healthyNum) %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ health_test[i] }}" alt="{{ health_test[i] }}">
-        <h6 class="font-weight-normal">Confidence: {{ "{:.0%}".format(h_prob[i]) }}</h6>
-        <h6 class="font-weight-normal">Disagree?
-          <input type="checkbox" name="healthy" value="{{ health_test[i] }}" conf-value="{{ h_prob[i] }}">
-        </h6>
-      </div>
+    <hr class="mt-2 mb-3">
+    <div class="section-row">
+      {% for idx in range(lenMH) %}
+        <div>
+          <img src="{{ modelH[idx] }}" class="img-thumbnail" alt="">
+          <div class="confidence-text">Confidence: {{ probArrH[idx] }}</div>
+        </div>
       {% endfor %}
-    </div>
+    </div>    
   </div>
 
-  <!-- AI Predicted Unhealthy -->
+  <!-- Unhealthy User Section -->
   <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">Unhealthy Test (Machine): {{ unhealthyNum }} ({{ unhealthyPct }})
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="AI-labeled unhealthy percentage.">
-        <span class="fa fa-info-circle"></span>
-      </a>
+    <h5 class="font-weight-light mt-4 mb-0">
+      Unhealthy (Model): {{ lenMU }} {{ percentU }}
       <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
         <span class="fa fa-search"></span>
       </a>
     </h5>
-    <hr class="mt-2 mb-5">
-    <div class="row text-center text-lg-left">
-      {% for i in range(unhealthyNum) %}
-      <div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
-        <img class="img-fluid img-rounded" src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{ unhealth_test[i] }}" alt="{{ unhealth_test[i] }}">
-        <h6 class="font-weight-normal">Confidence: {{ "{:.0%}".format(b_prob[i]) }}</h6>
-        <h6 class="font-weight-normal">Disagree?
-          <input type="checkbox" name="unhealthy" value="{{ unhealth_test[i] }}" conf-value="{{ b_prob[i] }}">
-        </h6>
-      </div>
+    <hr class="mt-2 mb-3">
+    <div class="section-row">
+      {% for idx in range(lenMU) %}
+        <div>
+          <img src="{{ modelU[idx] }}" class="img-thumbnail" alt="">
+          <div class="confidence-text">Confidence: {{ probArrU[idx] }}</div>
+        </div>
       {% endfor %}
     </div>
-  </div>
-
-  <!-- Disagreement Results -->
-  <div class="container">
-    <hr class="mt-2 mb-5">
-    <div id="result">
-      <h5 class="font-weight-normal">Disagreed Healthy: <span id="healthyselected">0</span></h5>
-      <h5 class="font-weight-normal">Disagreed Unhealthy: <span id="unhealthyselected">0</span></h5>
-      <button id="img" class="mb-2 mt-4 button primary-button">Show Selected Images</button>
-    </div>
-  </div>
-
-  <!-- Shared Modal -->
-  <div id="imgModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="imgset">
   </div>
 </div>
 
-<footer class="text-center mt-4">
-  <small>&copy; 2020 <a href="/">CornAI</a></small>
-</footer>
-
 {% endblock %}
+
+        userH=userH,
+        userU=userU,
+        lenUH=1,
+        lenUU=1,
+        modelH=modelH,
+        modelU=modelU,
+        lenMH=1,
+        lenMU=1,
+        percentH=percentH,
+        percentU=percentU,
+        probArrH=probArrH,
+        probArrU=probArrU

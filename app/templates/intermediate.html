@@ -36,7 +36,70 @@
     <a href="{{ url_for('label') }}">
       <button class="button nav-button">Keep Training</button>
     </a>
+<<<<<<< HEAD
   </div>
 </div>
 
 {% endblock %}
+=======
+    <br><br>
+    <h5 class="font-weight-normal">
+      Accuracy: {{ accuracy }}%, Loss: {{ loss }}%
+      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
+         data-content="The confidence value reflects how well the AI predicts based on your current labels.">
+        <span class="fa fa-info-circle" style="font-size:24px"></span>
+      </a>
+    </h5>
+  </div>
+
+<!-- Healthy User Section -->
+<div class="container">
+  <h5 class="font-weight-light mt-4 mb-0">
+    Healthy (User): {{ lenH }}
+    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
+       data-content="Click on image to view full size">
+      <span class="fa fa-search"></span>
+    </a>
+  </h5>
+  <hr class="mt-2 mb-3">
+  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
+    {% for img in userH %}
+      <div style="flex: 0 0 auto; margin-right: 10px;">
+        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Unhealthy User Section -->
+<div class="container mt-5">
+  <h5 class="font-weight-light mt-4 mb-0">
+    Unhealthy (User): {{ lenU }}
+    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
+       data-content="Click on image to view full size">
+      <span class="fa fa-search"></span>
+    </a>
+  </h5>
+  <hr class="mt-2 mb-3">
+  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
+    {% for img in userU %}
+      <div style="flex: 0 0 auto; margin-right: 10px;">
+        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+  <!-- Shared Modal -->
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="imgset">
+  </div>
+</div>
+
+<a href="{{ url_for('final') }}">
+  <button class="button nav-button">Skip to Final Result</button>
+</a>
+
+{% endblock %}
+>>>>>>> master
