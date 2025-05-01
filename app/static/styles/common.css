@@ -128,7 +128,6 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   transform: translate(-50%, -50%) scale(1.05);
-<<<<<<< HEAD
 }
 
 .card.result-card {
@@ -196,8 +195,6 @@ body {
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-=======
->>>>>>> master
 }
 
 .card:hover {
@@ -357,14 +354,11 @@ body {
   letter-spacing: 0.3px;
 }
 
-<<<<<<< HEAD
 .card-label.health-label {
   font-size: 20px;
   top: -10px;
 }
 
-=======
->>>>>>> master
 .textbox {
   position: absolute;
   top: 50%;
