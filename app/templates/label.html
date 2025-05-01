@@ -8,12 +8,20 @@
     <div class="card label-card">
       <label class="card-label">Agro AI 2025</label>
       <div class="image-container">
+<<<<<<< HEAD
+        <img src="{{ image_path }}" alt="Training Image" class="training-image">
+=======
         <img src="{{ img_path }}" alt="Training Image" class="training-image">
+>>>>>>> master
       </div>
       <br/>
       <div class="textbox add-label-textbox">
         <h4 class="main-title" style="font-size: 2rem;  margin: 0;">Training AI</h4>
+<<<<<<< HEAD
+        <h4 class="sub-title" style="font-size: 1.3rem; margin: 0;">Use the buttons to label an image as "Healthy" or "Unhealthy"</h4>
+=======
         <h4 class="sub-title" style="font-size: 1.3rem; margin: 0;">Use the buttons to label an image as "Healthy" or "Unhealthy" {{ curr_idx }}/10</h4>
+>>>>>>> master
         <form class="label-form" action="" method="post">
           {{ form.hidden_tag() }}
           {{ form.choice() }}
@@ -25,9 +33,12 @@
   <div class="navbar-button-container">
     <a href="{{ url_for('home') }}">
       <button class="button nav-button">Home</button>
+<<<<<<< HEAD
+=======
     </a>
     <a href="{{ url_for('final') }}">
       <button class="button nav-button">Skip to Final Result</button>
+>>>>>>> master
     </a>
   </div>
 </div>
