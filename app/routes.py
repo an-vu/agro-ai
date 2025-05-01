@@ -80,34 +80,6 @@ def label():
     Operates the label(label.html) web page.
     Initializes session data if needed and handles labeling logic.
     """
-<<<<<<< HEAD
-
-    form = LabelForm()
-
-    if 'input' not in session:
-        session['input'] = {}
-
-    if 'imgQueue' not in session or not session['imgQueue']:
-        if len(session['input']) >= 10:
-            return redirect(url_for('intermediate'))
-        else:
-            session['imgQueue'] = logic.fetchImg(10, session['input'])
-            session.modified = True
-
-    if form.validate_on_submit():
-        current_img = session['imgQueue'].pop(0)
-        session['input'][current_img] = form.choice.data
-        session.modified = True
-
-        if not session['imgQueue']:
-            print(session['input'])
-            return redirect(url_for('intermediate'))
-
-        return redirect(url_for('label'))
-
-    current_img = session['imgQueue'][0]
-    return render_template('label.html', form=form, image_path=current_img)
-=======
     # step 1 - verify user properly initialized app (thru home)
     if 'x_train' not in session or 'y_train' not in session:
         return redirect(url_for('home'))
@@ -125,7 +97,6 @@ def label():
             session['user_x'] = []
             session['user_y'] = []
         session['counter'] = 0
->>>>>>> master
 
     # step 3 - collect user inputs through form handling
     if form.validate_on_submit():
@@ -156,103 +127,10 @@ def intermediate():
     """
     Operates the intermediate(intermediate.html) web page.
     """
-<<<<<<< HEAD
-
-    session['imgQueue'] = logic.fetchImg(10, session['input'])
-
-    unhealthy_images = [img for img, label in session['input'].items() if label == 'B']
-    healthy_images = [img for img, label in session['input'].items() if label == 'H']
-
-    return render_template(
-        'intermediate.html',
-        health_user=healthy_images,
-        blight_user=unhealthy_images,
-        healthNum_user=len(healthy_images),
-        blightNum_user=len(unhealthy_images),
-    )
-
-'''
-@app.route("/final.html",methods=['GET'])
-def final():
-    """
-    Operates the final(final.html) web page.
-    """
-    healthyList = []
-    blightedList = []
-    for key in session['input']:
-        if session['input'][key] == 'H':
-            healthyList.append(key)
-        else:
-            blightedList.append(key)
-
-
-
-    return render_template('final.html')
-'''
-
-@app.route("/final.html", methods=["GET"])
-def final():
-    labeled_images = session.get('labeled_images', [])
-    labels = session.get('labels', [])
-
-    if not labeled_images or not labels:
-        return redirect(url_for('home'))
-
-    # Split healthy and unhealthy images
-    health_user = [img for img, lbl in zip(labeled_images, labels) if lbl == 'H']
-    blight_user = [img for img, lbl in zip(labeled_images, labels) if lbl == 'B']
-
-    healthNum_user = len(health_user)
-    blightNum_user = len(blight_user)
-
-    # Dummy variables for machine results (these would normally be AI outputs)
-    health_test = []
-    unhealth_test = []
-    healthyNum = 0
-    unhealthyNum = 0
-    healthyPct = "0%"
-    unhealthyPct = "0%"
-    h_prob = []
-    b_prob = []
-
-    # Dummy confidence value (adjust later)
-    confidence = 0.85
-
-    return render_template(
-        'final.html',
-        confidence=confidence,
-        health_user=health_user,
-        blight_user=blight_user,
-        healthNum_user=healthNum_user,
-        blightNum_user=blightNum_user,
-        health_test=health_test,
-        unhealth_test=unhealth_test,
-        healthyNum=healthyNum,
-        unhealthyNum=unhealthyNum,
-        healthyPct=healthyPct,
-        unhealthyPct=unhealthyPct,
-        h_prob=h_prob,
-        b_prob=b_prob
-    )
-
-
-@app.route("/feedback/<h_list>/<u_list>/<h_conf_list>/<u_conf_list>",methods=['GET'])
-def feedback(h_list,u_list,h_conf_list,u_conf_list):
-    """
-    Operates the feedback(feedback.html) web page.
-    """
-    h_feedback_result = list(h_list.split(","))
-    u_feedback_result = list(u_list.split(","))
-    h_conf_result = list(h_conf_list.split(","))
-    u_conf_result = list(u_conf_list.split(","))
-    h_length = len(h_feedback_result)
-    u_length = len(u_feedback_result)
-=======
     # step 1 - preprocess data
     imgNames = session['user_x']
     imgLabels = session['user_y']
     imgMaps = []
->>>>>>> master
     
     for imgName in imgNames:
         imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
