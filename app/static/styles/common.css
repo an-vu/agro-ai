@@ -43,10 +43,11 @@ body {
   display: flex;
   flex-direction: row; /* Stack the cards and button vertically */
   align-items: center; /* Center the cards and button horizontally */
-  justify-content: space-evenly;
+  justify-content: space-between;
   gap:20px;
   width: 100%;
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .row-container > .bg-image {
@@ -127,6 +128,74 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   transform: translate(-50%, -50%) scale(1.05);
+}
+
+.card.result-card {
+  position: relative;              
+  top: auto;
+  left: auto;
+  transform: none;                 
+  
+  background: transparent;
+  box-shadow: none;
+
+  width: calc(100vw - 40px);       
+  max-width: 80vw;
+  height: 75vh;
+
+  padding: 30px;
+  box-sizing: border-box;
+
+  margin: 0 auto;                  
+}
+
+.card.result-card:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;                
+  transform-origin: center center;
+  filter: none;
+}
+
+.card.health-card {
+  position: relative;         
+  top: auto;
+  left: auto;
+  transform: none;
+
+  flex: 1;
+  min-width: 0;
+  max-width: 48%;
+  height: 60vh;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card.health-card:hover {
+  transform: scale(1.03);
+}
+
+.scroll-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;      
+  overflow-y: auto;
+  flex-grow: 1;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.result-thumbnail {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;       
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .card:hover {
