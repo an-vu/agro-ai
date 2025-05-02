@@ -1,126 +1,73 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/final_format.css') }}">
 
-<div class="container">
-  <div class="row border-bottom">
-    <h1 class="font-weight-light pb-3 mb-2 mt-4">
-      Final Results
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="Based on what you labeled, here are some images that AI identified as 'Healthy' or 'Unhealthy'.">
-        <span class="fa fa-info-circle" style="font-size:24px"></span>
-      </a>
-    </h1>
+<div class="column-container">
+  <div class="card-container">
+    <div class="card result-card">
+      <label class="card-label">Final Result</label>
+
+
+      <label class="card-label confidence-label">
+        Confidence: {{ confidence }}
+        <span class="confidence-info">
+          {% if confidence == 1 %}
+          - All labels were the same or missed.
+          {% else %}
+          - Based on cross-validation with 3 sets.
+          {% endif %}
+        </span>
+      </label>
+
+      <!-- Healthy (User) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Healthy (User): {{ lenUH }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenUH) %}
+          <img src="{{ userH[idx] }}" class="result-thumbnail horizontal" alt="Healthy">
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Unhealthy (User) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Unhealthy (User): {{ lenUU }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenUU) %}
+          <img src="{{ userU[idx] }}" class="result-thumbnail horizontal" alt="Unhealthy">
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Healthy (Model) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Healthy (Model): {{ lenMH }} {{ percentH }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenMH) %}
+          <img src="{{ modelH[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrH[idx] }}">
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Unhealthy (Model) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Unhealthy (Model): {{ lenMU }} {{ percentU }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenMU) %}
+          <img src="{{ modelU[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrU[idx] }}">
+          {% endfor %}
+        </div>
+      </div>
+
+
+    </div>
   </div>
 
-  <div class="text-right">
+  <div class="navbar-button-container">
     <a href="{{ url_for('home') }}">
-      <button class="mb-2 mt-4 button primary-button" data-toggle="tooltip" title="Go back to the home page and restart training">Home</button>
+      <button class="button nav-button">Home</button>
     </a>
-    <br><br>
-    <h5 class="font-weight-normal">
-      Confidence: {{ confidence }}
-      {% if confidence == 1 %}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="This confidence level indicates you missed all labels or gave the same label for all training images.">
-        <span class="fa fa-info-circle" style="font-size:24px"></span>
-      </a>
-      {% else %}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="Confidence is based on cross-validation accuracy using three equal image sets.">
-        <span class="fa fa-info-circle" style="font-size:24px"></span>
-      </a>
-      {% endif %}
-    </h5>
-  </div>
-
-  <!-- Healthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Healthy (User): {{ lenUH }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-3">
-    <div class="section-row">
-      {% for idx in range(lenUH) %}
-        <div>
-          <img src="{{ userH[idx] }}" class="img-thumbnail" alt="">
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  <!-- Unhealthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Unhealthy (User): {{ lenUU }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-3">
-    <div class="section-row">
-      {% for idx in range(lenUU) %}
-        <div>
-          <img src="{{ userU[idx] }}" class="img-thumbnail" alt="">
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  <!-- Healthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Healthy (Model): {{ lenMH }} {{ percentH }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-3">
-    <div class="section-row">
-      {% for idx in range(lenMH) %}
-        <div>
-          <img src="{{ modelH[idx] }}" class="img-thumbnail" alt="">
-          <div class="confidence-text">Confidence: {{ probArrH[idx] }}</div>
-        </div>
-      {% endfor %}
-    </div>    
-  </div>
-
-  <!-- Unhealthy User Section -->
-  <div class="container">
-    <h5 class="font-weight-light mt-4 mb-0">
-      Unhealthy (Model): {{ lenMU }} {{ percentU }}
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
-        <span class="fa fa-search"></span>
-      </a>
-    </h5>
-    <hr class="mt-2 mb-3">
-    <div class="section-row">
-      {% for idx in range(lenMU) %}
-        <div>
-          <img src="{{ modelU[idx] }}" class="img-thumbnail" alt="">
-          <div class="confidence-text">Confidence: {{ probArrU[idx] }}</div>
-        </div>
-      {% endfor %}
-    </div>
   </div>
 </div>
 
 {% endblock %}
-
-        userH=userH,
-        userU=userU,
-        lenUH=1,
-        lenUU=1,
-        modelH=modelH,
-        modelU=modelU,
-        lenMH=1,
-        lenMU=1,
-        percentH=percentH,
-        percentU=percentU,
-        probArrH=probArrH,
-        probArrU=probArrU

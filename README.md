@@ -14,6 +14,16 @@ This project aims to build trust among farmers in artificial intelligence by dem
 - **Backend**: Flask (Python)  
 - **Frontend**: HTML5, JavaScript (Fetch API)  
 
+
+# How to run on Mac
+
+create venv, install requirements.txt, run runApp.py
+in another terminal window,
+brew install redis
+brew services start redis
+redis-cli ping
+
+
 ## Technologies Used
 
 - Flask (for the backend server)  

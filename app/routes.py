@@ -185,6 +185,8 @@ def intermediate():
         elif label in '1':
             userU.append(url_for('static', filename=f'imgHandheld/{img}'))
 
+    print(userH, userU)
+
     return render_template('intermediate.html', accuracy=accuracy, loss=loss, userH=userH, lenH=len(userH), userU=userU, lenU=len(userU))
 
 @app.route("/final.html", methods=["GET"])

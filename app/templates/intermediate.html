@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/label_format.css') }}">
 
 <div class="column-container">
   <div class="card-container">
     <div class="card result-card">
       <label class="card-label">Accuracy: {{ accuracy }}% | Loss: {{ loss }}% | Intermediate Review</label>
       <div class="row-container">
-        
         <div class="card health-card">
           <h4 class="card-label health-label">Healthy (User): {{ lenH }}</h4>
           <div class="scroll-row">
