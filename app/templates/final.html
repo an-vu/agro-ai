@@ -6,66 +6,60 @@
   <div class="card-container">
     <div class="card result-card">
       <label class="card-label">Final Result</label>
-      <div class="column-container">
-        <label class="card-label">Final Result</label>
-        <label class="card-label confidence-label">
-          Confidence: {{ confidence }}
-          <span class="confidence-info">
-            {% if confidence == 1 %}
-            - All labels were the same or missed.
-            {% else %}
-            - Based on cross-validation with 3 sets.
-            {% endif %}
-          </span>
-        </label>
-        
 
-        <!-- Healthy (User) -->
-        <div class="card health-card horizontal">
-          <h4 class="card-label health-label">Healthy (User): {{ lenUH }}</h4>
-          <div class="scroll-row">
-            {% for idx in range(lenUH) %}
-            <img src="{{ userH[idx] }}" class="result-thumbnail" alt="Healthy">
-            {% endfor %}
-          </div>
-        </div>
 
-        <!-- Unhealthy (User) -->
-        <div class="card health-card horizontal">
-          <h4 class="card-label health-label">Unhealthy (User): {{ lenUU }}</h4>
-          <div class="scroll-row">
-            {% for idx in range(lenUU) %}
-            <img src="{{ userU[idx] }}" class="result-thumbnail" alt="Unhealthy">
-            {% endfor %}
-          </div>
-        </div>
+      <label class="card-label confidence-label">
+        Confidence: {{ confidence }}
+        <span class="confidence-info">
+          {% if confidence == 1 %}
+          - All labels were the same or missed.
+          {% else %}
+          - Based on cross-validation with 3 sets.
+          {% endif %}
+        </span>
+      </label>
 
-        <!-- Healthy (Model) -->
-        <div class="card health-card horizontal">
-          <h4 class="card-label health-label">Healthy (Model): {{ lenMH }} {{ percentH }}</h4>
-          <div class="scroll-row">
-            {% for idx in range(lenMH) %}
-            <div class="result-block">
-              <img src="{{ modelH[idx] }}" class="result-thumbnail" alt="Healthy Model">
-              <div class="confidence-text">Confidence: {{ probArrH[idx] }}</div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-
-        <!-- Unhealthy (Model) -->
-        <div class="card health-card horizontal">
-          <h4 class="card-label health-label">Unhealthy (Model): {{ lenMU }} {{ percentU }}</h4>
-          <div class="scroll-row">
-            {% for idx in range(lenMU) %}
-            <div class="result-block">
-              <img src="{{ modelU[idx] }}" class="result-thumbnail" alt="Unhealthy Model">
-              <div class="confidence-text">Confidence: {{ probArrU[idx] }}</div>
-            </div>
-            {% endfor %}
-          </div>
+      <!-- Healthy (User) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Healthy (User): {{ lenUH }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenUH) %}
+          <img src="{{ userH[idx] }}" class="result-thumbnail horizontal" alt="Healthy">
+          {% endfor %}
         </div>
       </div>
+
+      <!-- Unhealthy (User) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Unhealthy (User): {{ lenUU }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenUU) %}
+          <img src="{{ userU[idx] }}" class="result-thumbnail horizontal" alt="Unhealthy">
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Healthy (Model) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Healthy (Model): {{ lenMH }} {{ percentH }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenMH) %}
+          <img src="{{ modelH[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrH[idx] }}">
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Unhealthy (Model) -->
+      <div class="card health-card horizontal">
+        <h4 class="card-label health-label">Unhealthy (Model): {{ lenMU }} {{ percentU }}</h4>
+        <div class="scroll-row horizontal">
+          {% for idx in range(lenMU) %}
+          <img src="{{ modelU[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrU[idx] }}">
+          {% endfor %}
+        </div>
+      </div>
+
+
     </div>
   </div>
 

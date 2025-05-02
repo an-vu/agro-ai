@@ -56,8 +56,8 @@ body {
 
 .column-container {
   display: flex;
-  flex-direction: column; /* Stack the cards and button vertically */
-  align-items: center; /* Center the cards and button horizontally */
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap:20px;
 }
@@ -146,6 +146,9 @@ body {
   padding: 30px;
   box-sizing: border-box;
 
+  flex-direction: column;
+  align-items: center; 
+
   margin: 0 auto;                  
 }
 
@@ -173,6 +176,13 @@ body {
   overflow: hidden;
 }
 
+.card.health-card.horizontal {
+  width: 95%;
+  max-width: 95%;
+  height: auto;
+  box-sizing: border-box;
+}
+
 .card.health-card:hover {
   transform: scale(1.03);
 }
@@ -188,10 +198,29 @@ body {
   padding: 10px 0;
 }
 
+.scroll-row.horizontal {
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+}
+
 .result-thumbnail {
   width: 90%;
   max-width: 90%;
   height: auto;      
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.result-thumbnail.horizontal {
+  width: auto;
+  max-height: 90%;
+  height: 90%;      
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -446,17 +475,13 @@ body {
 
 /* Final.html */
 
-.confidence-label {
-  position: relative;
-  top: auto;
-  right: auto;
-  display: block;
-  margin-top: 10px;
+.card-label.confidence-label {
+  margin-top: 40px;  /* pushes it below the main label */
+  margin-bottom: 20px;  /* creates space before the cards */
   font-size: 18px;
-  color: #4a4a4a;
-  text-shadow: none;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+  color: var(--grey-600, #595959);
+  display: block;
+  position: relative;
 }
 
 .confidence-info {
@@ -465,7 +490,6 @@ body {
   color: #777;
   margin-left: 8px;
 }
-
 
 .training-image {
   max-width: 100%;
