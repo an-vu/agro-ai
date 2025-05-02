@@ -1,82 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/label_format.css') }}">
 
-<div class="container">
-  <div class="row border-bottom">
-    <h1 class="font-weight-light pb-3 mb-2 mt-4">
-      Intermediate Results
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="The intermediate page shows the images you've labeled with current Machine Learning confidence level. It will be automatically transferred to the final results when the confidence level is over the preset threshold.">
-        <span class="fa fa-info-circle" style="font-size:24px"></span>
-      </a>
-    </h1>
+<div class="column-container">
+  <div class="card-container">
+    <div class="card result-card">
+      <label class="card-label">Accuracy: {{ accuracy }}% | Loss: {{ loss }}% | Intermediate Review</label>
+      <div class="row-container">
+        
+        <div class="card health-card">
+          <h4 class="card-label health-label">Healthy (User): {{ lenH }}</h4>
+          <div class="scroll-row">
+            {% for i in userH %}
+              <img src="{{ i }}" class="result-thumbnail" alt="Healthy">
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="card health-card">
+          <h4 class="card-label health-label">Unhealthy (User): {{ lenU }}</h4>
+          <div class="scroll-row">
+            {% for i in userU %}
+              <img src="{{ i }}" class="result-thumbnail" alt="Unhealthy">
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="text-right">
+  <div class="navbar-button-container">
     <a href="{{ url_for('home') }}">
-      <button class="mb-2 mt-4 button primary-button" data-toggle="tooltip" title="Go back to the home page and restart training">Home</button>
+      <button class="button nav-button">Home</button>
     </a>
     <a href="{{ url_for('label') }}">
-      <button class="mb-2 mt-4 button primary-button" data-toggle="tooltip" title="Label more images to increase AI confidence">Keep Training</button>
+      <button class="button nav-button">Keep Training</button>
     </a>
-    <br><br>
-    <h5 class="font-weight-normal">
-      Accuracy: {{ accuracy }}%, Loss: {{ loss }}%
-      <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-         data-content="The confidence value reflects how well the AI predicts based on your current labels.">
-        <span class="fa fa-info-circle" style="font-size:24px"></span>
-      </a>
-    </h5>
-  </div>
-
-<!-- Healthy User Section -->
-<div class="container">
-  <h5 class="font-weight-light mt-4 mb-0">
-    Healthy (User): {{ lenH }}
-    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-       data-content="Click on image to view full size">
-      <span class="fa fa-search"></span>
+    <a href="{{ url_for('final') }}">
+      <button class="button nav-button">Skip to Final Result</button>
     </a>
-  </h5>
-  <hr class="mt-2 mb-3">
-  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
-    {% for img in userH %}
-      <div style="flex: 0 0 auto; margin-right: 10px;">
-        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
-      </div>
-    {% endfor %}
   </div>
 </div>
-
-<!-- Unhealthy User Section -->
-<div class="container mt-5">
-  <h5 class="font-weight-light mt-4 mb-0">
-    Unhealthy (User): {{ lenU }}
-    <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus"
-       data-content="Click on image to view full size">
-      <span class="fa fa-search"></span>
-    </a>
-  </h5>
-  <hr class="mt-2 mb-3">
-  <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
-    {% for img in userU %}
-      <div style="flex: 0 0 auto; margin-right: 10px;">
-        <img src="{{ img }}" class="img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" alt="">
-      </div>
-    {% endfor %}
-  </div>
-</div>
-
-  <!-- Shared Modal -->
-  <div id="myModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="imgset">
-  </div>
-</div>
-
-<a href="{{ url_for('final') }}">
-  <button class="button nav-button">Skip to Final Result</button>
-</a>
 
 {% endblock %}
