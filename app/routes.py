@@ -15,7 +15,7 @@ class LabelForm(FlaskForm):
     choice = RadioField(u'Label', choices=[(0, u'Healthy'), (1, u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
     submit = SubmitField('Add Label')
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'static', 'model.weights.h5')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'static', 'model.weights.keras')
 tf.config.run_functions_eagerly(True)
 
 @app.route("/", methods=['GET'])
@@ -64,7 +64,7 @@ def home():
     output = keras.layers.Dense(1, activation='sigmoid')(x)
 
     model = keras.Model(inputs=inputLayer, outputs=output)
-    model.compile(loss='binary_crossentropy', optimizer='SGD', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     model.save(MODEL_PATH)
 
     return render_template('index.html')
@@ -88,15 +88,16 @@ def label():
 
     # step 2 - clear cookies necessary for labeling
     if 'form_images' not in session or 'form_labels' not in session:
-        print('new images made, variables set')
         session['form_images'] = session['x_train'][-10:]
         session['form_labels'] = session['y_train'][-10:]
         session['x_train'] = session['x_train'][:-10]
         session['y_train'] = session['y_train'][:-10]
-        if 'user_x' not in session or 'user_y' not in session:
-            session['user_x'] = []
-            session['user_y'] = []
+        if 'x_user' not in session or 'y_user' not in session:
+            session['x_user'] = []
+            session['y_user'] = []
         session['counter'] = 0
+    elif len(session['form_images']) <= 0 or len(session['form_labels']) <= 0:
+        return redirect(url_for('final'))
 
     # step 3 - collect user inputs through form handling
     if form.validate_on_submit():
@@ -105,10 +106,10 @@ def label():
         session['form_labels'][curr_idx] = (form.choice.data)
         session['counter'] += 1
 
-        # after 10 labels, clear cookies, store inputs in user_x and user_y
+        # after 10 labels, clear cookies, store inputs in x_user and y_user
         if session['counter'] >= len(session['form_images']):
-            session['user_x'] += (session.pop('form_images', None))
-            session['user_y'] += (session.pop('form_labels', None))
+            session['x_user'] += (session.pop('form_images', None))
+            session['y_user'] += (session.pop('form_labels', None))
             session.pop('counter', None)
 
             return redirect(url_for('intermediate'))
@@ -128,11 +129,15 @@ def intermediate():
     Operates the intermediate(intermediate.html) web page.
     """
     # step 1 - preprocess data
-    imgNames = session['user_x']
-    imgLabels = session['user_y']
-    imgMaps = []
+    x_user = session['x_user']
+    y_user = session['y_user']
+    x_user_maps = []
+
+    x_test = session['x_test']
+    y_test = session['y_test']
+    x_test_maps = []
     
-    for imgName in imgNames:
+    for imgName in x_user:
         imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
 
         # Open image, convert to RGB, resize to 256x256
@@ -140,21 +145,38 @@ def intermediate():
 
         # Convert to NumPy array and normalize (0-255 -> 0-1)
         imgArr = np.array(img, dtype=np.float32) / 255.0
-        imgMaps.append(imgArr)
+        x_user_maps.append(imgArr)
+
+    x_user = np.array(x_user_maps)
+    y_user = np.array(y_user).astype(np.float32).reshape(-1, 1)
+
+    for imgName in x_test:
+        imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
+
+        # Open image, convert to RGB, resize to 256x256
+        img = Image.open(imgPath).convert('RGB').resize((256, 256))
+
+        # Convert to NumPy array and normalize (0-255 -> 0-1)
+        imgArr = np.array(img, dtype=np.float32) / 255.0
+        x_test_maps.append(imgArr)
+
+    test_x = np.array(x_test_maps)
+    test_y = np.array(y_test).astype(np.int32).reshape(-1, 1)
 
     # step 2 - load, compile, and feed model
     model = keras.models.load_model(MODEL_PATH)
-    model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['accuracy'])
-    x_user = np.array(imgMaps)
-    y_user = np.array(imgLabels).astype(np.float32)
-    model.fit(x_user, y_user, epochs=5, batch_size=4, verbose=2)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    
+    model.fit(x_user, y_user, epochs=1, batch_size=len(x_user), verbose=1)
 
-    loss, accuracy = (f'{x*100:.2f}' for x in model.evaluate(x_user, y_user, verbose=2))
+    loss, accuracy = model.evaluate(test_x, test_y, verbose=0)
+    loss = f'{loss * 100:.2f}'
+    accuracy = f'{accuracy * 100:.2f}'
 
     model.save(MODEL_PATH)
 
     # step 3 - sort user inputs to display on intermediate
-    userInput = list(zip(session['user_x'][-10:], session['user_y'][-10:]))
+    userInput = list(zip(session['x_user'][-10:], session['y_user'][-10:]))
     userH, userU = [], []
 
     for img, label in userInput:
@@ -171,6 +193,11 @@ def intermediate():
 def final():
     # Load model
     model = keras.models.load_model(MODEL_PATH)
+    
+    # Load remaining training image names and labels
+    x_train = session['x_train']
+    y_train = session['y_train']
+
 
     # Load test image names and labels
     x_test = session['x_test']
@@ -184,10 +211,12 @@ def final():
         test_imgs.append(imgArr)
 
     x_test_arr = np.array(test_imgs)
-    y_test_arr = np.array(y_test).astype(np.float32)
+    y_test_arr = np.array(y_test).astype(np.int32).reshape(-1, 1)
 
     # Predict probabilities
-    probs = model.predict(x_test_arr).flatten()
+    probs = model.predict(x_test_arr)
+    print(probs)
+    probs = probs.flatten()
     preds = (probs > 0.5).astype(int)
 
     # Separate image URLs and confidence per predicted label
@@ -211,29 +240,16 @@ def final():
     percentU = f'{(lenMU / total) * 100:.2f}%' if total else '0%'
 
     # Pull user-labeled data
-    user_data = list(zip(session['user_x'][-10:], session['user_y'][-10:]))
+    user_data = list(zip(session['x_user'][-10:], session['y_user'][-10:]))
     userH = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '0']
     userU = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '1']
     lenUH = len(userH)
     lenUU = len(userU)
 
     # Evaluate to get confidence/accuracy
-    _, accuracy = model.evaluate(x_test_arr, y_test_arr, verbose=0)
+    loss, accuracy = model.evaluate(x_test_arr, y_test_arr, verbose=0)
     confidence = f'{accuracy * 100:.2f}%'
 
-    return render_template(
-        'final.html',
-        confidence=confidence,
-        userH=userH,
-        userU=userU,
-        lenUH=lenUH,
-        lenUU=lenUU,
-        modelH=modelH,
-        modelU=modelU,
-        lenMH=lenMH,
-        lenMU=lenMU,
-        percentH=percentH,
-        percentU=percentU,
-        probArrH=probArrH,
-        probArrU=probArrU
-    )
+    return render_template('final.html', confidence=confidence, userH=userH, userU=userU, lenUH=lenUH,
+                           lenUU=lenUU, modelH=modelH, modelU=modelU, lenMH=lenMH, lenMU=lenMU,
+                           percentH=percentH, percentU=percentU, probArrH=probArrH, probArrU=probArrU)
