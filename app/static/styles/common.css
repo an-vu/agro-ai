@@ -226,6 +226,17 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+.heatmap-thumbnail {
+  border: 2px solid rgba(255, 59, 48, 0.7);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heatmap-thumbnail:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 59, 48, 0.4);
+}
+
 .card:hover {
   transform: translate(-50%, -50%) scale(1.05);
   background: rgba(255, 255, 255, 0.7);
@@ -317,7 +328,7 @@ body {
     box-shadow 300ms ease-in-out,
     color 300ms ease-in-out,
     background 0.4s,
-    transform 0.4s ease;
+    transform 0.4s ease,
     opacity 0.4s ease,
     filter 0.4s ease;
 

@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Untracked files
-/app/static/imgHandheld
+/app/static/model.weights.keras
+/app/static/model.weights.h5

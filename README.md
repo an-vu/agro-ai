@@ -21,7 +21,11 @@ create venv, install requirements.txt, run runApp.py
 in another terminal window,
 brew install redis
 brew services start redis
-redis-cli ping
+redis-cli ping **optional: this will verify that the redis server is up and running**
+
+# After first setup of the redis server on MAC, only the following is required to start
+open a terminal window
+brew services start redis
 
 
 ## Technologies Used

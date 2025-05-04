@@ -2,14 +2,15 @@
 """@package web
 This method is responsible for the inner workings of the different web pages in this application.
 """
-from flask import render_template, session, redirect, url_for
-from app import app, HeatmapGenerator
+from flask import render_template, session, request, redirect, url_for, jsonify
+import keras.api
+from app import app
 from flask_wtf import FlaskForm
 from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from sklearn.model_selection import train_test_split
 from PIL import Image
-import os, cv2, pandas as pd, numpy as np, time, keras, tensorflow as tf, matplotlib.pyplot as plt
+import os, cv2, pandas as pd, numpy as np, time, keras, tensorflow as tf, shutil
 
 class LabelForm(FlaskForm):
     choice = RadioField(u'Label', choices=[(0, u'Healthy'), (1, u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
@@ -47,7 +48,7 @@ def home():
     session['x_train'], session['x_test'], session['y_train'], session['y_test'] = train_test_split(images, labels, test_size=0.1, random_state=int(time.time()))
 
     # step 2 - create model, compile model, save bare model to static
-    inputLayer = keras.Input(shape=(256, 256, 3))
+    inputLayer = keras.Input(shape=(256, 256, 3), name='input_layer')
     x = keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')(inputLayer)
     x = keras.layers.BatchNormalization()(x)
     x = keras.layers.MaxPooling2D((2, 2))(x)
@@ -193,11 +194,34 @@ def intermediate():
 def final():
     # Load model
     model = keras.models.load_model(MODEL_PATH)
-    
-    # Load remaining training image names and labels
-    x_train = session['x_train']
-    y_train = session['y_train']
 
+    # Load train image names and labels
+    x_train = session.get('x_train', [])
+    y_train = session.get('y_train', [])
+
+    # Process images and train model
+    batch_size = 10
+    train_len = len(x_train)
+
+    for i in range(0, train_len, batch_size):
+        batch_imgs = []
+        batch_labels = []
+
+        batch_x = x_train[i:i + batch_size]
+        batch_y = y_train[i:i + batch_size]
+
+        for img_name in batch_x:
+            img_path = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', img_name)
+            img = Image.open(img_path).convert('RGB').resize((256, 256))
+            img_arr = np.array(img, dtype=np.float32) / 255.0
+            batch_imgs.append(img_arr)
+
+        batch_imgs = np.array(batch_imgs)
+        batch_labels = np.array(batch_y).astype(np.float32).reshape(-1, 1)
+
+        model.fit(batch_imgs, batch_labels, epochs=1, batch_size=len(batch_imgs), verbose=1)
+
+    model.save(MODEL_PATH)
 
     # Load test image names and labels
     x_test = session['x_test']
@@ -214,9 +238,7 @@ def final():
     y_test_arr = np.array(y_test).astype(np.int32).reshape(-1, 1)
 
     # Predict probabilities
-    probs = model.predict(x_test_arr)
-    print(probs)
-    probs = probs.flatten()
+    probs = model.predict(x_test_arr).flatten()
     preds = (probs > 0.5).astype(int)
 
     # Separate image URLs and confidence per predicted label
@@ -224,7 +246,6 @@ def final():
     probArrH, probArrU = [], []
 
     for img_name, pred, prob in zip(x_test, preds, probs):
-        print(pred, prob)
         if pred == 0:
             modelH.append(url_for('static', filename=f'imgHandheld/{img_name}'))
             probArrH.append(f'{(1 - prob) * 100:.2f}%')
@@ -253,3 +274,63 @@ def final():
     return render_template('final.html', confidence=confidence, userH=userH, userU=userU, lenUH=lenUH,
                            lenUU=lenUU, modelH=modelH, modelU=modelU, lenMH=lenMH, lenMU=lenMU,
                            percentH=percentH, percentU=percentU, probArrH=probArrH, probArrU=probArrU)
+
+@app.route('/gradcam', methods=['POST'])
+def gradcam():
+    imgName = request.json.get('image_path').split('/')[-1]
+    imgPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHandheld', imgName)
+
+    # Preprocess image
+    img = Image.open(imgPath).convert('RGB').resize((256, 256))
+    imgArr = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
+
+    # Load keras models
+    model = keras.models.load_model(os.path.join(os.path.dirname(__file__), 'static', 'model.weights.keras'))
+
+    # Generate heatmap
+    hmpArr = make_gradcam_heatmap(imgArr, model)
+    hmpName = save_and_overlay_heatmap(imgName, imgPath, hmpArr)
+
+    return jsonify({'gradcam_url': url_for('static', filename=f'imgHeatmap/{hmpName}')})
+
+
+def make_gradcam_heatmap(imgArr, model, pred_index=None):
+    # Create model mapping input -> attention layer + output
+    grad_model = keras.models.Model(
+        inputs=model.input,
+        outputs=[model.get_layer("attention_layer").output, model.output]
+    )
+
+    with tf.GradientTape() as tape:
+        last_conv_layer_output, preds = grad_model(imgArr)
+        if pred_index is None:
+            pred_index = tf.argmax(preds[0])
+        class_channel = preds[:, pred_index]
+
+    # Compute gradients
+    grads = tape.gradient(class_channel, last_conv_layer_output)
+    pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
+
+    # Weight the channels by importance
+    last_conv_layer_output = last_conv_layer_output[0]
+    heatmap = last_conv_layer_output @ pooled_grads[..., tf.newaxis]
+    heatmap = tf.squeeze(heatmap)
+
+    # Normalize the heatmap
+    heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
+    return heatmap.numpy()
+
+def save_and_overlay_heatmap(imgName, imgPath, hmpArr, alpha=0.4):
+    img = cv2.imread(imgPath)
+
+    hmpName = f'heatmap_{imgName}'
+    hmpArr = cv2.resize(hmpArr, (img.shape[1], img.shape[0]))
+    hmpArr = np.uint8(255 * hmpArr)
+    hmpColor = cv2.applyColorMap(hmpArr, cv2.COLORMAP_JET)
+    hmpOverlay = cv2.addWeighted(img, 1 - alpha, hmpColor, alpha, 0)
+
+    hmpPath = os.path.join(os.path.dirname(__file__), 'static', 'imgHeatmap', f'heatmap_{imgName}')
+    os.makedirs(os.path.dirname(hmpPath), exist_ok=True)
+    cv2.imwrite(hmpPath, hmpOverlay)
+
+    return hmpName

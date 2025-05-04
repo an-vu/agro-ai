@@ -24,7 +24,7 @@
         <h4 class="card-label health-label">Healthy (User): {{ lenUH }}</h4>
         <div class="scroll-row horizontal">
           {% for idx in range(lenUH) %}
-          <img src="{{ userH[idx] }}" class="result-thumbnail horizontal" alt="Healthy">
+          <img src="{{ userH[idx] }}" class="result-thumbnail horizontal" alt="Healthy" onclick="showGradCAM('{{ userH[idx] }}')" style="cursor:pointer; max-width:200px;">
           {% endfor %}
         </div>
       </div>
@@ -34,7 +34,7 @@
         <h4 class="card-label health-label">Unhealthy (User): {{ lenUU }}</h4>
         <div class="scroll-row horizontal">
           {% for idx in range(lenUU) %}
-          <img src="{{ userU[idx] }}" class="result-thumbnail horizontal" alt="Unhealthy">
+          <img src="{{ userU[idx] }}" class="result-thumbnail horizontal" alt="Unhealthy" onclick="showGradCAM('{{ userU[idx] }}')" style="cursor:pointer; max-width:200px;">
           {% endfor %}
         </div>
       </div>
@@ -44,7 +44,7 @@
         <h4 class="card-label health-label">Healthy (Model): {{ lenMH }} {{ percentH }}</h4>
         <div class="scroll-row horizontal">
           {% for idx in range(lenMH) %}
-          <img src="{{ modelH[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrH[idx] }}">
+          <img src="{{ modelH[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrH[idx] }}" onclick="showGradCAM('{{ modelH[idx] }}')" style="cursor:pointer; max-width:200px;">
           {% endfor %}
         </div>
       </div>
@@ -54,11 +54,43 @@
         <h4 class="card-label health-label">Unhealthy (Model): {{ lenMU }} {{ percentU }}</h4>
         <div class="scroll-row horizontal">
           {% for idx in range(lenMU) %}
-          <img src="{{ modelU[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrU[idx] }}">
+          <img src="{{ modelU[idx] }}" class="result-thumbnail horizontal" alt="Confidence: {{ probArrU[idx] }}" onclick="showGradCAM('{{ modelU[idx] }}')" style="cursor:pointer; max-width:200px;">
           {% endfor %}
         </div>
       </div>
 
+      <!-- Modal HTML -->
+      <div id="gradcamModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #000; z-index:1000; padding:20px; overflow:auto;">
+        <span onclick="document.getElementById('gradcamModal').style.display='none'" style="cursor:pointer; float:right; font-size:24px;">&times;</span>
+        <h3>Grad-CAM Visualization</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:20px;">
+            <div>
+                <p>Original</p>
+                <img id="originalImage" src="" style="max-width:300px;">
+            </div>
+            <div>
+                <p>Grad-CAM</p>
+                <img id="gradcamImage" src="" style="max-width:300px;">
+            </div>
+        </div>
+      </div>
+
+      <script>
+      function showGradCAM(imagePath) {
+        fetch('/gradcam', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ image_path: imagePath })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('originalImage').src = imagePath;
+            document.getElementById('gradcamImage').src = data.gradcam_url;
+            document.getElementById('gradcamModal').style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
+      }
+      </script>
 
     </div>
   </div>
