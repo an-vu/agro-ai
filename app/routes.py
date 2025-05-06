@@ -65,15 +65,15 @@ def home():
     output = keras.layers.Dense(1, activation='sigmoid')(x)
 
     model = keras.Model(inputs=inputLayer, outputs=output)
+    print(model.summary())
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     model.save(MODEL_PATH)
 
     return render_template('index.html')
 
-@app.route('/heatmap')
-def heatmap():
-
-    return render_template('heatmap.html', heatmap_img=os.path.join(os.path.dirname(__file__), 'static', 'heatmap_output.png'))
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route("/label.html", methods=['GET', 'POST'])
 def label():
