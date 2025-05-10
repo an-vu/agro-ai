@@ -3,14 +3,13 @@
 This method is responsible for the inner workings of the different web pages in this application.
 """
 from flask import render_template, session, request, redirect, url_for, jsonify
-import keras.api
 from app import app
 from flask_wtf import FlaskForm
 from wtforms import RadioField, SubmitField
 from wtforms.validators import DataRequired
 from sklearn.model_selection import train_test_split
 from PIL import Image
-import os, cv2, pandas as pd, numpy as np, time, keras, tensorflow as tf, shutil
+import os, cv2, pandas as pd, numpy as np, time, keras, tensorflow as tf
 
 class LabelForm(FlaskForm):
     choice = RadioField(u'Label', choices=[(0, u'Healthy'), (1, u'Unhealthy')], validators = [DataRequired(message='Cannot be empty')])
@@ -65,7 +64,6 @@ def home():
     output = keras.layers.Dense(1, activation='sigmoid')(x)
 
     model = keras.Model(inputs=inputLayer, outputs=output)
-    print(model.summary())
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     model.save(MODEL_PATH)
 
@@ -186,8 +184,6 @@ def intermediate():
         elif label in '1':
             userU.append(url_for('static', filename=f'imgHandheld/{img}'))
 
-    print(userH, userU)
-
     return render_template('intermediate.html', accuracy=accuracy, loss=loss, userH=userH, lenH=len(userH), userU=userU, lenU=len(userU))
 
 @app.route("/final.html", methods=["GET"])
@@ -261,7 +257,7 @@ def final():
     percentU = f'{(lenMU / total) * 100:.2f}%' if total else '0%'
 
     # Pull user-labeled data
-    user_data = list(zip(session['x_user'][-10:], session['y_user'][-10:]))
+    user_data = list(zip(session['x_user'], session['y_user']))
     userH = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '0']
     userU = [url_for('static', filename=f'imgHandheld/{img}') for img, label in user_data if str(label) == '1']
     lenUH = len(userH)
@@ -292,7 +288,6 @@ def gradcam():
     hmpName = save_and_overlay_heatmap(imgName, imgPath, hmpArr)
 
     return jsonify({'gradcam_url': url_for('static', filename=f'imgHeatmap/{hmpName}')})
-
 
 def make_gradcam_heatmap(imgArr, model, pred_index=None):
     # Create model mapping input -> attention layer + output
