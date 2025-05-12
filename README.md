@@ -23,13 +23,18 @@ This project aims to build trust among farmers in artificial intelligence by dem
 
 ## Getting Started
 
-Ensure you are running on Python 3.9.11- this is the newest version available with support for Keras/Tensorflow, as of 5/9/25
+Ensure you are running on Python 3.9.11- this is the newest python version available with support for Keras/Tensorflow, as of 5/9/25
 
 Clone this repository:
 
 ```sh
 git clone https://github.com/alan-r03/agro-ai.git
 ```
+
+create a /static directory in the /app directory (/app/static) if not already present
+download, unzip, and transfer all images into /app/static/imgHandheld
+download, unzip, and transfer imgAnnotations.csv into /app/static
+these can be found here https://unomail-my.sharepoint.com/:f:/g/personal/alanramirez_unomaha_edu/EpaXuPd3h55HmHWkGkiRuI4BT69kCWVeY8orjI3qdcaY_w?e=ytg8tf
 
 pip install requirements.txt
 
