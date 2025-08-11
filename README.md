@@ -1,73 +1,136 @@
 # Agro-AI
 
-## CSCI 4970 Capstone Project
+**CSCI 4970 Capstone Project**
 
 This project aims to build trust among farmers in artificial intelligence by demonstrating an interactive learning system. Users will provide input to a machine learning algorithm and observe how their feedback impacts its accuracy.
 
+---
+
 ## Project Overview
 
-- **Core Functionality**: Users will interact with a web-based interface to label images of corn as either *healthy* or *unhealthy*.  
-- **Machine Learning Integration**: The system employs *active learning*, meaning it refines its model based on user-provided labels.  
+- **Core Functionality:**  
+  Users will interact with a web-based interface to label images of corn as either healthy or unhealthy.
+
+- **Machine Learning Integration:**  
+  The system employs active learning, meaning it refines its model based on user-provided labels.
+
+---
 
 ## Features
 
-- **Backend**: Flask/Redis (Python), Keras/Tensorflow Modeling
-- **Frontend**: HTML5+Jinja2 Flask Templates, JavaScript (Fetch API)  
+- **Backend:** Flask/Redis (Python), Keras/TensorFlow Modeling  
+- **Frontend:** HTML5 + Jinja2 Flask Templates, JavaScript (Fetch API)
+
+---
 
 ## Technologies Used
 
-- Flask (for the backend server)  
-- JavaScript Fetch API (for client-server communication)  
-- HTML5/CSS (for UI)  
-- Keras/Tensorflow (for classification)
+- Flask (backend server)
+- JavaScript Fetch API (client-server communication)
+- HTML5/CSS (UI)
+- Keras/TensorFlow (classification)
+
+---
 
 ## Getting Started
 
-Ensure you are running on Python 3.9.11- this is the newest python version available with support for Keras/Tensorflow, as of 5/9/25
+### Requirements
 
-Clone this repository:
+- Python **3.9.11**  
+  *(Newest Python version with Keras/TensorFlow support as of 5/9/25)*
 
-```sh
+---
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/alan-r03/agro-ai.git
+````
+
+---
+
+### 2. Static Files Setup
+
+* Create a `/static` directory inside `/app` if not already present:
+  `/app/static`
+* Download, unzip, and place **all images** into:
+  `/app/static/imgHandheld`
+* Download, unzip, and place **imgAnnotations.csv** into:
+  `/app/static`
+* Files can be found here:
+  [Download Link](https://unomail-my.sharepoint.com/:f:/g/personal/alanramirez_unomaha_edu/EpaXuPd3h55HmHWkGkiRuI4BT69kCWVeY8orjI3qdcaY_w?e=ytg8tf)
+
+---
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
 ```
 
-create a /static directory in the /app directory (/app/static) if not already present
-download, unzip, and transfer all images into /app/static/imgHandheld
-download, unzip, and transfer imgAnnotations.csv into /app/static
-these can be found here https://unomail-my.sharepoint.com/:f:/g/personal/alanramirez_unomaha_edu/EpaXuPd3h55HmHWkGkiRuI4BT69kCWVeY8orjI3qdcaY_w?e=ytg8tf
+---
 
-pip install requirements.txt
+## Redis Setup
 
-After cloning, set up redis. Redis manages much of the user's web information.
+### Windows
 
-## Redis setup (Windows)
-1. install the Windows Subsystem for Linux (WSL)
-^ first, open a powershell or cmd terminal as an administrator, and run the following command
-*wsl --install*
-2. open the wsl terminal and complete the initial setup
-3. run the following commands to initialize the redis server
-*sudo apt update*
-*sudo apt install redis-server*
-*sudo service redis-server start*
-to verify the redis-server is live, run the following on the WSL terminal:
-*redis-cli ping*
+1. Install **Windows Subsystem for Linux (WSL)**:
 
-## After first setup of the redis server on Windows, only the following is required to start
-1. open a terminal and run the following commands,
-*sudo service redis-server start*
+   ```bash
+   wsl --install
+   ```
+2. Open WSL terminal and complete initial setup.
+3. Run the following to start Redis:
 
-## Redis setup (MacOS)
+   ```bash
+   sudo apt update
+   sudo apt install redis-server
+   sudo service redis-server start
+   ```
+4. Verify Redis is running:
 
-1. pip install requirements.txt
-2. open a terminal and run the following commands,
-*brew install redis*
-*brew services start redis*
-*redis-cli ping* **optional: this will verify that the redis server is up and running**
+   ```bash
+   redis-cli ping
+   ```
+5. **Subsequent starts:**
 
-## After first setup of the redis server on MAC, only the following is required to start
-1. open a terminal and run the following commands,
-*brew services start redis*
+   ```bash
+   sudo service redis-server start
+   ```
 
-Once the redis server is running and the packages are installed, execute 'runApp.py'.
+---
 
-In a web browser, navigate to 127.0.0.1:5000 to open the Agro-AI website.
+### MacOS
+
+1. Install Redis:
+
+   ```bash
+   brew install redis
+   brew services start redis
+   ```
+2. Verify Redis is running:
+
+   ```bash
+   redis-cli ping
+   ```
+3. **Subsequent starts:**
+
+   ```bash
+   brew services start redis
+   ```
+
+---
+
+## Run the Application
+
+1. Ensure Redis server is running.
+2. Execute:
+
+   ```bash
+   python runApp.py
+   ```
+3. Open a browser and go to:
+
+   ```
+   http://127.0.0.1:5000
+   ```
